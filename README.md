@@ -4,6 +4,9 @@
 
 A 4WD differential drive robot is controlled using ROS2 Humble running on a Raspberry Pi 4 (running Ubuntu server 22.04). The vehicle will be equipped with a camera for visual feedback and an RPLIDAR A1 sensor used for Simultaneous Localization and Mapping (SLAM), autonomous navigation and obstacle avoidance. The intent of the project is to learn about robotics, and to eventually recognize my cat's face and chase him to alleviate some boredom.
 
+See [the workspace template](/template.md) for usage instructions.
+
+
 ***(Work in Progress)***
 
 ## Tasks 
@@ -17,6 +20,11 @@ A 4WD differential drive robot is controlled using ROS2 Humble running on a Rasp
 - [ ] Chase cat
 
 ## Hardware
+#### Robot Under Construction
+<p align='center'>
+    <img src=docs/images/wip_catbot.jpg width="1000">
+</p>
+
 ### Part list
 The following components were used in this project:
 
@@ -48,7 +56,12 @@ Some other tools or parts used in the project are as follows:
 |7| [Connector Crimp Pin Cable Kit JST SYP Futaba](https://www.amazon.com/dp/B09MYWTHDZ?psc=1&ref=ppx_yo2ov_dt_b_product_details)|
 |8| Zip ties |
 
-## Acknowledgment
-
+## Acknowledgments
+- [Allison Thackston](https://github.com/athackst/vscode_ros2_workspace)
 - [Articulated Robotics](https://articulatedrobotics.xyz/)
 - [Lidarbot](https://github.com/TheNoobInventor/lidarbot)
+
+#### Cricket
+<p align='center'>
+    <img src=docs/images/cricket.jpg width="1000">
+</p>
