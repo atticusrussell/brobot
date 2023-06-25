@@ -13,16 +13,18 @@
 		"--security-opt=seccomp:unconfined",
 		"--security-opt=apparmor:unconfined",
 		"--volume=/tmp/.X11-unix:/tmp/.X11-unix",
+		"--volume=/tmp/.${devcontainerId}.xauth:/tmp/.Xauthority",
 		"--volume=/mnt/wslg:/mnt/wslg",
 		"--volume=${localEnv:SSH_AUTH_SOCK}:/ssh-agent",
 		"-e SSH_AUTH_SOCK=/ssh-agent",
-		"--ipc=host"
+		"--ipc=host",
+		"-e DISPLAY=$DISPLAY"
 		// uncomment to use intel iGPU
 		// "--device=/dev/dri"
 	],
 	"containerEnv": {
-		"DISPLAY": "${localEnv:DISPLAY}", // Needed for GUI try ":0" for windows
 		"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+		"XAUTHORITY": "/tmp/.Xauthority", // needed for X11 credentials,
 		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
 		"PULSE_SERVER": "${localEnv:PULSE_SERVER}",
 		"LIBGL_ALWAYS_SOFTWARE": "1" // Needed for software rendering of opengl
