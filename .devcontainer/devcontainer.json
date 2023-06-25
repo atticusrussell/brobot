@@ -17,6 +17,7 @@
 		"--volume=/mnt/wslg:/mnt/wslg",
 		"--volume=${localEnv:SSH_AUTH_SOCK}:/ssh-agent",
 		"-e SSH_AUTH_SOCK=/ssh-agent",
+		"--volume=${localEnv:HOME}/.ssh:/home/ros/.ssh",
 		"--ipc=host",
 		"-e DISPLAY=$DISPLAY"
 		// uncomment to use intel iGPU
