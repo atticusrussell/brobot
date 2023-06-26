@@ -10,8 +10,10 @@
   <xacro:arg name="sim_gazebo" default="false" />
   <xacro:arg name="simulation_controllers" default="" />
 
-  <xacro:include filename="$(find catbot_description)/urdf/catbot/catbot_macro.xacro"/>
-  <xacro:include filename="$(find catbot_description)/urdf/catbot/catbot_macro.ros2_control.xacro"/>
+  <!-- <xacro:include filename="$(find catbot_description)/urdf/catbot/catbot_macro.xacro"/> -->
+  <!-- <xacro:include filename="$(find catbot_description)/urdf/catbot/catbot_macro.ros2_control.xacro"/> -->
+  <xacro:include filename="$(find catbot_description)/urdf/catbot/catbot_os.urdf.xacro"/>
+
 
   <!-- create link fixed to the "world" -->
   <link name="world" />
@@ -22,13 +24,13 @@
     <origin xyz="0 0 0" rpy="0 0 0" />          <!-- position robot in the world -->
   </xacro:catbot>
 
-  <xacro:catbot_ros2_control
+  <!-- <xacro:catbot_ros2_control
     name="catbot"
     prefix="$(arg prefix)"
     use_mock_hardware="$(arg use_mock_hardware)"
     mock_sensor_commands="$(arg mock_sensor_commands)"
     sim_gazebo_classic="$(arg sim_gazebo_classic)"
     sim_gazebo="$(arg sim_gazebo)"
-    simulation_controllers="$(arg simulation_controllers)" />
+    simulation_controllers="$(arg simulation_controllers)" /> -->
 
 </robot>
