@@ -4,14 +4,15 @@ import re
 
 def format_urdf(input_file_name, output_file_name=None):
     """
-    This function takes an input file and formats the file content.
-    It adds a new line before each <link name> and <joint name> element.
+    Take an input file and formats the file content.
+
+    Adds a new line before each <link name> and <joint name> element.
 
     :param input_file_name: str, name of the input file
     :param output_file_name: str, name of the output file. If None,
     modifies the input file in place.
     """
-    with open(input_file_name, 'r') as file:
+    with open(input_file_name) as file:
         content = file.read()
 
     # Add a new line before each <link name> and <joint name> element using regex substitution
