@@ -5,6 +5,9 @@
         "packageName": "catbot_description/meshes",
         "mergeSTLs": "all",
         "assemblyName": "robot_assm",
-        "robotName": "catbot"
+        "robotName": "catbot",
+        "postImportCommands": [
+                "./moveMeshes.sh"
+        ]
 }
         
