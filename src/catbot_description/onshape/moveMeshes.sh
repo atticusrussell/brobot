@@ -1,7 +1,9 @@
 #!/bin/bash
 
+robot_name="catbot"
+
 # Source and destination directories
-src_dir="./"
+src_dir="./$robot_name"
 dest_dir="../meshes"
 
 # Create destination directory if it doesn't exist
@@ -21,4 +23,15 @@ find "$src_dir" -name '*assm*.stl' -print0 | while IFS= read -r -d '' file; do
     else
         cp "$file" "$dest_dir"
     fi
+done
+
+# Copy robot.urdf to the appropriate subdirectory
+mkdir -p "../urdf/$robot_name"
+cp "$src_dir/robot.urdf" "../urdf/$robot_name/$robot_name.urdf"
+
+# Change paths in copied URDF files to match new directory structure
+find "../urdf/$robot_name" -name '*.urdf' -print0 | while IFS= read -r -d '' file; do
+    # Find and edit instances of mesh filenames
+    sed -i 's#<mesh filename="package://\(.*\)/\(.*\)_visual.stl"/>#<mesh filename="package://\1/visual/\2_visual.stl"/>#' "$file"
+    sed -i 's#<mesh filename="package://\(.*\)/\(.*\)_collision.stl"/>#<mesh filename="package://\1/collision/\2_collision.stl"/>#' "$file"
 done
