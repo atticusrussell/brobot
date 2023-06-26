@@ -5,6 +5,13 @@
 
   <xacro:macro name="catbot" params="prefix parent *origin">
 
+    <!-- base_joint fixes base_link to the environment -->
+    <joint name="${prefix}base_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child link="${prefix}base_link" />
+    </joint>
+
     <link name="base_link"></link>
 
     <joint name="base_link_to_base" type="fixed">
