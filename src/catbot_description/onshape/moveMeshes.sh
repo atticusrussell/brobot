@@ -35,3 +35,9 @@ find "../urdf/$robot_name" -name '*.urdf' -print0 | while IFS= read -r -d '' fil
     sed -i 's#<mesh filename="package://\(.*\)/\(.*\)_visual.stl"/>#<mesh filename="package://\1/visual/\2_visual.stl"/>#' "$file"
     sed -i 's#<mesh filename="package://\(.*\)/\(.*\)_collision.stl"/>#<mesh filename="package://\1/collision/\2_collision.stl"/>#' "$file"
 done
+
+# format the URDF file
+# indent
+tidy -xml -i -quiet -o "../urdf/$robot_name/$robot_name.urdf" "../urdf/$robot_name/$robot_name.urdf"
+# re-add  newlines
+python3 urdf_newlines.py "../urdf/$robot_name/$robot_name.urdf"
