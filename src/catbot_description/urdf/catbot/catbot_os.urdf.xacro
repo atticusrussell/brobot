@@ -78,7 +78,7 @@
       </inertial>
     </link>
 
-    <joint name="rr_wheel" type="revolute">
+    <joint name="rr_wheel" type="continuous">
       <origin xyz="-0.077614131532514007983 0.080478921592024327269 -0.030500000000000013212"
       rpy="-1.570796326794896558 0.67540343776289657463 -1.5707963267948956698" />
       <parent link="still_chassis_assm" />
@@ -117,7 +117,7 @@
       </inertial>
     </link>
 
-    <joint name="rf_wheel" type="revolute">
+    <joint name="rf_wheel" type="continuous">
       <origin xyz="-0.077614131532534658131 -0.068021078407976207081 -0.030499999999999957701"
       rpy="1.570796326794896558 5.0445758681405589749e-15 1.570796326794896336" />
       <parent link="still_chassis_assm" />
@@ -156,7 +156,7 @@
       </inertial>
     </link>
 
-    <joint name="rl_wheel" type="revolute">
+    <joint name="rl_wheel" type="continuous">
       <origin xyz="0.078385868467483257871 0.080478921592024507681 -0.030500000000000044437"
       rpy="-1.570796326794896558 -5.0445758681405660746e-15 1.5707963267948970021" />
       <parent link="still_chassis_assm" />
@@ -195,7 +195,7 @@
       </inertial>
     </link>
 
-    <joint name="fl_wheel" type="revolute">
+    <joint name="fl_wheel" type="continuous">
       <origin xyz="0.078385868467507308077 -0.068021078407975985036 -0.030500000000000034028"
       rpy="-1.5707963267949118791 1.5703086100333234487 1.5707963267962468112" />
       <parent link="still_chassis_assm" />
