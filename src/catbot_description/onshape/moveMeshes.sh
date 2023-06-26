@@ -25,12 +25,18 @@ find "$src_dir" -name '*assm*.stl' -print0 | while IFS= read -r -d '' file; do
     fi
 done
 
-# Copy robot.urdf to the appropriate subdirectory
-mkdir -p "../urdf/$robot_name"
-cp "$src_dir/robot.urdf" "../urdf/$robot_name/$robot_name.urdf"
+# new name for urdf file
+urdf_path="../urdf/$robot_name/"
+urdf_suffix="_macro.xacro"
+urdf_file="$robot_name$urdf_suffix"
+urdf_file_path="$urdf_path$urdf_file"
 
-# Change paths in copied URDF files to match new directory structure
-find "../urdf/$robot_name" -name '*.urdf' -print0 | while IFS= read -r -d '' file; do
+# Copy robot.urdf to the appropriate subdirectory
+mkdir -p "$urdf_path"
+cp "$src_dir/robot.urdf" "$urdf_file_path"
+
+# Change paths in copied URDF file to match new directory structure
+find "$urdf_file_path" -print0 | while IFS= read -r -d '' file; do
     # Find and edit instances of mesh filenames
     sed -i 's#<mesh filename="package://\(.*\)/\(.*\)_visual.stl"/>#<mesh filename="package://\1/visual/\2_visual.stl"/>#' "$file"
     sed -i 's#<mesh filename="package://\(.*\)/\(.*\)_collision.stl"/>#<mesh filename="package://\1/collision/\2_collision.stl"/>#' "$file"
@@ -38,6 +44,6 @@ done
 
 # format the URDF file
 # indent
-tidy -xml -i -quiet -o "../urdf/$robot_name/$robot_name.urdf" "../urdf/$robot_name/$robot_name.urdf"
+tidy -xml -i -quiet -o $urdf_file_path $urdf_file_path
 # re-add  newlines
-python3 urdf_newlines.py "../urdf/$robot_name/$robot_name.urdf"
+python3 urdf_newlines.py $urdf_file_path
