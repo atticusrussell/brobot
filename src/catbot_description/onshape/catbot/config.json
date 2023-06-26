@@ -1,0 +1,10 @@
+{
+        "documentId": "495ae85c292c3ab6d645bdf9",
+        "outputFormat": "urdf",
+        "addDummyBaseLink": "true",
+        "packageName": "catbot_description/meshes",
+        "mergeSTLs": "all",
+        "assemblyName": "robot_assm",
+        "robotName": "catbot"
+}
+        
