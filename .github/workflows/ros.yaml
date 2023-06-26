@@ -34,13 +34,13 @@ jobs:
         run: echo "::set-output name=cpp_files_present::$(find . -name '*.c' -o -name '*.cpp' | wc -l)"
       -
         name: Run C/C++ linter
-        if: contains(['cppcheck', 'cpplint', 'uncrustify'], matrix.linter) && steps.check_files.outputs.cpp_files_present > '0'
+        if: contains(matrix.linter, 'cppcheck') || contains(matrix.linter, 'cpplint') || contains(matrix.linter, 'uncrustify') && steps.check_files.outputs.cpp_files_present > '0'
         uses: ./.github/actions/lint/
         env:
           LINTER: ${{ matrix.linter }}
       -
         name: Run other linters
-        if: contains(['cppcheck', 'cpplint', 'uncrustify'], matrix.linter) == false
+        if:  ! contains(matrix.linter, 'cppcheck' || 'cpplint' || 'uncrustify')
         uses: ./.github/actions/lint/
         env:
           LINTER: ${{ matrix.linter }}
