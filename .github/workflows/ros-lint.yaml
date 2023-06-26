@@ -1,0 +1,36 @@
+name: ROS Lint
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+jobs:
+  manual_lint:
+    name: ament_${{ matrix.linter }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+          linter: [cppcheck, cpplint, uncrustify, lint_cmake, xmllint, flake8, pep257]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/lint/
+        env: 
+          LINTER: ${{ matrix.linter }}
+
+  ament_lint:
+    name: ament_${{ matrix.linter }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+          linter: [cppcheck, cpplint, uncrustify, lint_cmake, xmllint, flake8, pep257]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ros-tooling/setup-ros@master
+      - uses: ros-tooling/action-ros-lint@master
+        with:
+          linter: ${{ matrix.linter }}
+          package-name:
+            catbot_description
