@@ -1,245 +1,205 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
-
-  <xacro:include filename="$(find catbot_description)/urdf/common.xacro" />
-
   <xacro:macro name="catbot" params="prefix parent *origin">
-    <!-- LINKS -->
-    <!-- base link -->
-    <link name="${prefix}base_link">
-      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
-           to get more realistic behaviour-->
-      <xacro:default_inertial/>
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.3" radius="0.3" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/visual/base_link.dae" /> -->
-        </geometry>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.3" radius="0.3" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/collision/base_link.stl" /> -->
-        </geometry>
-      </collision>
-    </link>
-    <!-- link 1 -->
-    <link name="${prefix}link1">
-      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
-           to get more realistic behaviour-->
-      <xacro:default_inertial/>
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.3" radius="0.15" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/visual/link1.dae" /> -->
-        </geometry>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.3" radius="0.15" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/collision/link1.stl" /> -->
-        </geometry>
-      </collision>
-    </link>
-    <!-- link 2 -->
-    <link name="${prefix}link2">
-      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
-           to get more realistic behaviour-->
-      <xacro:default_inertial/>
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.8" radius="0.15" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/visual/link2.dae" /> -->
-        </geometry>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.8" radius="0.15" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/collision/link2.stl"  /> -->
-        </geometry>
-      </collision>
-    </link>
-    <!-- link 3 -->
-    <link name="${prefix}link3">
-      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
-           to get more realistic behaviour-->
-      <xacro:default_inertial/>
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.5" radius="0.10" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/visual/link3.dae" /> -->
-        </geometry>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.5" radius="0.10" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/collision/link3.stl"  /> -->
-        </geometry>
-      </collision>
-    </link>
-    <!-- link 4 -->
-    <link name="${prefix}link4">
-      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
-           to get more realistic behaviour-->
-      <xacro:default_inertial/>
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.1" radius="0.2" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/visual/link4.dae" /> -->
-        </geometry>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.1" radius="0.2" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/collision/link4.stl"  /> -->
-        </geometry>
-      </collision>
-    </link>
-    <!-- link 5 -->
-    <link name="${prefix}link5">
-      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
-           to get more realistic behaviour-->
-      <xacro:default_inertial/>
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.2" radius="0.1" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/visual/link5.dae" /> -->
-        </geometry>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.2" radius="0.1" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/collision/link5.stl" /> -->
-        </geometry>
-      </collision>
-    </link>
-    <!-- link 6 -->
-    <link name="${prefix}link6">
-      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
-           to get more realistic behaviour-->
-      <xacro:default_inertial/>
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.05" radius="0.1" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/visual/link6.dae" /> -->
-        </geometry>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="0.05" radius="0.1" />
-<!--           <mesh filename="package://catbot_description/meshes/catbot/collision/link6.stl" /> -->
-        </geometry>
-      </collision>
-    </link>
-
-    <!-- All-zero tool frame. This frame should correspond to the TOOL frame of the robot's controller.) -->
-    <link name="${prefix}tool0" />
-    <!-- tool link -->
-
-<!-- START Delete if not needed -->
-    <!-- Standard frames for industrial robots. Also useful for manipulators.
-         (ROS-I specs - https://wiki.ros.org/Industrial/Tutorials/WorkingWithRosIndustrialRobotSupportPackages#Standardised_links_.2F_frames)-->
-    <!-- This frame should correspond to the BASE coordinate system of robot's controller.) -->
-    <link name="${prefix}base" />
-    <!-- Frame for mounting EEF models to a manipulator. x+ axis points forward (REP 103). -->
-    <link name="${prefix}flange" />
-<!-- END Delete if not needed  -->
-    <!-- END LINKS -->
-
-    <!-- JOINTS -->
     <!-- base_joint fixes base_link to the environment -->
+
     <joint name="${prefix}base_joint" type="fixed">
       <xacro:insert_block name="origin" />
       <parent link="${parent}" />
       <child link="${prefix}base_link" />
     </joint>
-    <!-- joint 1 -->
-    <joint name="${prefix}joint1" type="revolute">
-      <origin xyz="0 0 0.3" rpy="${pi} 0 0" />
-      <parent link="${prefix}base_link" />
-      <child link="${prefix}link1" />
-      <axis xyz="0 0 1" />
-      <limit effort="0" lower="${radians(-180)}" upper="${radians(180)}" velocity="${radians(180)}" />
-    </joint>
-    <!-- joint 2 -->
-    <joint name="${prefix}joint2" type="revolute">
-      <origin xyz="0 0 0.3" rpy="${pi/2} 0 0" />
-      <parent link="${prefix}link1" />
-      <child link="${prefix}link2" />
-      <axis xyz="0 0 1" />
-      <limit effort="0" lower="${radians(-180)}" upper="${radians(180)}" velocity="${radians(180)}" />
-    </joint>
-    <!-- joint 3 -->
-    <joint name="${prefix}joint3" type="revolute">
-      <origin xyz="0.8 0 0" rpy="0 0 0" />
-      <parent link="${prefix}link2" />
-      <child link="${prefix}link3" />
-      <axis xyz="0 0 1" />
-      <limit effort="0" lower="${radians(-90)}" upper="${radians(180)}" velocity="${radians(270)}" />
-    </joint>
-    <!-- joint 4 -->
-    <joint name="${prefix}joint4" type="revolute">
-      <origin xyz="0 0.1 0" rpy="0 ${-pi/2} 0" />
-      <parent link="${prefix}link3" />
-      <child link="${prefix}link4" />
-      <axis xyz="0 0 1" />
-      <limit effort="0" lower="${radians(-360)}" upper="${radians(360)}" velocity="${radians(360)}" />
-    </joint>
-    <!-- joint 5 -->
-    <joint name="${prefix}joint5" type="revolute">
-      <origin xyz="0 0 -0.1" rpy="0 ${pi/2} 0" />
-      <parent link="${prefix}link4" />
-      <child link="${prefix}link5" />
-      <axis xyz="0 0 1" />
-      <limit effort="0" lower="${radians(-120)}" upper="${radians(120)}" velocity="${radians(540)}" />
-    </joint>
-    <!-- joint 6 -->
-    <joint name="${prefix}joint6" type="revolute">
-      <origin xyz="0 0 0.1" rpy="0 ${-pi/2} 0" />
-      <parent link="${prefix}link5" />
-      <child link="${prefix}link6" />
-      <axis xyz="0 0 1" />
-      <limit effort="0" lower="${radians(-360)}" upper="${radians(360)}" velocity="${radians(720)}" />
+
+    <link name="base_link"></link>
+
+    <joint name="base_link_to_base" type="fixed">
+      <parent link="base_link" />
+      <child link="still_chassis_assm" />
+      <origin rpy="0.0 0 0" xyz="0 0 0" />
     </joint>
 
-    <!-- tool frame - fixed frame -->
-    <joint name="${prefix}joint6-tool0" type="fixed">
-      <parent link="${prefix}link6" />
-      <child link="${prefix}tool0" />
-      <origin xyz="0 0 -0.115" rpy="0 ${-pi} ${-pi/2}" />
+    <link name="still_chassis_assm">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/visual/still_chassis_assm_visual.stl" />
+        </geometry>
+        <material name="still_chassis_assm_material">
+          <color rgba="0.66987717125153900533 0.81712318213796708566 0.66602980483018836555 1.0" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/collision/still_chassis_assm_collision.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.00027961412402240977014 0.0046876789374875839009 -0.0054409557585405705568"
+        rpy="0 0 0" />
+        <mass value="1.0156681416365394011" />
+        <inertia ixx="0.0065127126032337098738"
+        ixy="1.5566438777542365468e-07"
+        ixz="3.6708728527239328719e-06"
+        iyy="0.0025991819436423468752"
+        iyz="6.1954470337197489749e-05"
+        izz="0.0071648278899316356766" />
+      </inertial>
+    </link>
+
+    <link name="wheel_assm">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/visual/wheel_assm_visual.stl" />
+        </geometry>
+        <material name="wheel_assm_material">
+          <color rgba="0.34876043041436377568 0.28454440741211711741 0.12249285133838178075 1.0" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/collision/wheel_assm_collision.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="2.5876683231912983522e-09 -2.5321947387836322962e-09 -0.0043217676979120578026"
+        rpy="0 0 0" />
+        <mass value="0.054377782220193432439" />
+        <inertia ixx="1.7947780629583350172e-05"
+        ixy="-3.8234084814183779999e-12"
+        ixz="-1.6934852918263056535e-12"
+        iyy="1.7621269066491265109e-05"
+        iyz="-2.0136050751311128972e-12"
+        izz="2.8213568549230894094e-05" />
+      </inertial>
+    </link>
+
+    <joint name="rr_wheel" type="continuous">
+      <origin xyz="-0.077614131532514007983 0.080478921592024327269 -0.030500000000000013212"
+      rpy="-1.570796326794896558 0.67540343776289657463 -1.5707963267948956698" />
+      <parent link="still_chassis_assm" />
+      <child link="wheel_assm" />
+      <axis xyz="0 0 1" />
+      <limit effort="1" velocity="20" />
+      <joint_properties friction="0.0" />
     </joint>
-    <!-- END JOINTS -->
 
-<!-- START Delete if not needed -->
-    <!-- Standard frames for industrial robots. Also useful for manipulators.
-         (ROS-I specs - https://wiki.ros.org/Industrial/Tutorials/WorkingWithRosIndustrialRobotSupportPackages#Standardised_links_.2F_frames)-->
-    <joint name="${prefix}base_link-base_joint" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <parent link="${prefix}base_link" />
-      <child link="${prefix}base" />
+    <link name="wheel_assm_2">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/visual/wheel_assm_2_visual.stl" />
+        </geometry>
+        <material name="wheel_assm_2_material">
+          <color rgba="0.34876043041436377568 0.28454440741211711741 0.12249285133838178075 1.0" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/collision/wheel_assm_2_collision.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="2.5876683436570912888e-09 -2.5321947882875150234e-09 -0.0043217676979120907624"
+        rpy="0 0 0" />
+        <mass value="0.054377782220193432439" />
+        <inertia ixx="1.7947780629583373889e-05"
+        ixy="-3.8234084806256659389e-12"
+        ixz="-1.6934852952780513878e-12"
+        iyy="1.7621269066491271885e-05"
+        iyz="-2.0136050702142612672e-12"
+        izz="2.8213568549230904259e-05" />
+      </inertial>
+    </link>
+
+    <joint name="rf_wheel" type="continuous">
+      <origin xyz="-0.077614131532534658131 -0.068021078407976207081 -0.030499999999999957701"
+      rpy="1.570796326794896558 5.0445758681405589749e-15 1.570796326794896336" />
+      <parent link="still_chassis_assm" />
+      <child link="wheel_assm_2" />
+      <axis xyz="0 0 1" />
+      <limit effort="1" velocity="20" />
+      <joint_properties friction="0.0" />
     </joint>
 
-    <joint name="${prefix}tool0-flange_joint" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <parent link="${prefix}tool0" />
-      <child link="${prefix}flange" />
+    <link name="wheel_assm_3">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/visual/wheel_assm_3_visual.stl" />
+        </geometry>
+        <material name="wheel_assm_3_material">
+          <color rgba="0.34876043041436383119 0.28454440741211711741 0.12249285133838178075 1.0" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/collision/wheel_assm_3_collision.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="2.5876683542375088732e-09 -2.5321947930490429075e-09 -0.0043217676979121003034"
+        rpy="0 0 0" />
+        <mass value="0.054377782220193432439" />
+        <inertia ixx="1.7947780629583373889e-05"
+        ixy="-3.8234084806256627077e-12"
+        ixz="-1.6934852942781941971e-12"
+        iyy="1.7621269066491275274e-05"
+        iyz="-2.01360506846477306e-12"
+        izz="2.8213568549230904259e-05" />
+      </inertial>
+    </link>
+
+    <joint name="rl_wheel" type="continuous">
+      <origin xyz="0.078385868467483257871 0.080478921592024507681 -0.030500000000000044437"
+      rpy="-1.570796326794896558 -5.0445758681405660746e-15 1.5707963267948970021" />
+      <parent link="still_chassis_assm" />
+      <child link="wheel_assm_3" />
+      <axis xyz="0 0 1" />
+      <limit effort="1" velocity="20" />
+      <joint_properties friction="0.0" />
     </joint>
-<!-- END Delete if not needed  -->
 
+    <link name="wheel_assm_4">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/visual/wheel_assm_4_visual.stl" />
+        </geometry>
+        <material name="wheel_assm_4_material">
+          <color rgba="0.34876043041436377568 0.28454440741211711741 0.12249285133838176687 1.0" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/collision/wheel_assm_4_collision.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="2.5876682744584021363e-09 -2.5321945349340081079e-09 -0.0043217676979121323957"
+        rpy="0 0 0" />
+        <mass value="0.054377782220193432439" />
+        <inertia ixx="1.7947780629583377277e-05"
+        ixy="-3.8234084820191074185e-12"
+        ixz="-1.6934852985237760372e-12"
+        iyy="1.7621269066491275274e-05"
+        iyz="-2.0136050684267663727e-12"
+        izz="2.8213568549230907647e-05" />
+      </inertial>
+    </link>
 
+    <joint name="fl_wheel" type="continuous">
+      <origin xyz="0.078385868467507308077 -0.068021078407975985036 -0.030500000000000034028"
+      rpy="-1.5707963267949118791 1.5703086100333234487 1.5707963267962468112" />
+      <parent link="still_chassis_assm" />
+      <child link="wheel_assm_4" />
+      <axis xyz="0 0 1" />
+      <limit effort="1" velocity="20" />
+      <joint_properties friction="0.0" />
+    </joint>
   </xacro:macro>
 </robot>

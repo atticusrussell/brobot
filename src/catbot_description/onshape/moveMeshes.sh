@@ -36,11 +36,23 @@ mkdir -p "$urdf_path"
 cp "$src_dir/robot.urdf" "$urdf_file_path"
 
 # Change paths in copied URDF file to match new directory structure
-find "$urdf_file_path" -print0 | while IFS= read -r -d '' file; do
-    # Find and edit instances of mesh filenames
-    sed -i 's#<mesh filename="package://\(.*\)/\(.*\)_visual.stl"/>#<mesh filename="package://\1/visual/\2_visual.stl"/>#' "$file"
-    sed -i 's#<mesh filename="package://\(.*\)/\(.*\)_collision.stl"/>#<mesh filename="package://\1/collision/\2_collision.stl"/>#' "$file"
-done
+sed -i 's#<mesh filename="package://\(.*\)/\(.*\)_visual.stl"/>#<mesh filename="package://\1/visual/\2_visual.stl"/>#' "$urdf_file_path"
+sed -i 's#<mesh filename="package://\(.*\)/\(.*\)_collision.stl"/>#<mesh filename="package://\1/collision/\2_collision.stl"/>#' "$urdf_file_path"
+
+# Replace "revolute" type joints with "continuous" in joints where the name contains "wheel"
+sed -i '/<joint name=".*wheel.*" type="revolute">/s/revolute/continuous/' "$urdf_file_path"
+
+# Replace the first line of the file with the specified content
+sed -i '1c <?xml version="1.0" encoding="UTF-8"?>\n<robot xmlns:xacro="http://wiki.ros.org/xacro">\n\n  <xacro:macro name="catbot" params="prefix parent *origin">\n\n    <!-- base_joint fixes base_link to the environment -->\n\n    <joint name="${prefix}base_joint" type="fixed">\n      <xacro:insert_block name="origin" />\n      <parent link="${parent}" />\n      <child link="${prefix}base_link" />\n    </joint>' "$urdf_file_path"
+
+# Remove the last three lines
+head -n -3 "$urdf_file_path" > temp_file && mv temp_file "$urdf_file_path"
+
+# Append the specified content to the end of the file
+echo "  </xacro:macro>" >> "$urdf_file_path"
+echo "</robot>" >> "$urdf_file_path"
+echo "" >> "$urdf_file_path"
+
 
 # format the URDF file
 # indent

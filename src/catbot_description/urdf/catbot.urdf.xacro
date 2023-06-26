@@ -10,9 +10,8 @@
   <xacro:arg name="sim_gazebo" default="false" />
   <xacro:arg name="simulation_controllers" default="" />
 
-  <!-- <xacro:include filename="$(find catbot_description)/urdf/catbot/catbot_macro.xacro"/> -->
+  <xacro:include filename="$(find catbot_description)/urdf/catbot/catbot_macro.xacro"/>
   <!-- <xacro:include filename="$(find catbot_description)/urdf/catbot/catbot_macro.ros2_control.xacro"/> -->
-  <xacro:include filename="$(find catbot_description)/urdf/catbot/catbot_os.urdf.xacro"/>
 
 
   <!-- create link fixed to the "world" -->
