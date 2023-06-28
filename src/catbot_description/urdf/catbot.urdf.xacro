@@ -12,6 +12,7 @@
 
   <xacro:include filename="$(find catbot_description)/urdf/catbot/catbot_macro.xacro"/>
   <xacro:include filename="$(find catbot_description)/urdf/catbot/catbot_macro.ros2_control.xacro"/>
+  <xacro:include filename="gazebo_catbot.xacro"/>
 
 
   <!-- create link fixed to the "world" -->
