@@ -80,7 +80,6 @@ def generate_launch_description():
         output='screen',
         arguments=['-topic', 'robot_description',
                    '-entity', 'catbot',
-                #    "-timeout", "120",
                    '-x', '0.0',
                    '-y', '0.0',
                    '-z', '0.1',
