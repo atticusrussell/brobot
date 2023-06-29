@@ -15,7 +15,7 @@ find_package(catbot_description REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 
-INCLUDE_DIRECTORIES(
+include_directories(
   include
 )
 

@@ -21,19 +21,19 @@ def generate_launch_description():
         "rviz",
         "catbot.rviz")
 
-    ### ARGS ###
+    # Args
     world = LaunchConfiguration("world")
     world_cmd = DeclareLaunchArgument(
         "world",
         default_value=os.path.join(pkg_path, "worlds", "obstacles.world"),
         description="Gazebo world")
-    
+
     use_sim_time = LaunchConfiguration('use_sim_time')
     use_sim_time_cmd = DeclareLaunchArgument(
         name='use_sim_time',
         default_value='True',
         description='Use simulation (Gazebo) clock if true')
-    
+
     use_ros2_control = LaunchConfiguration('use_ros2_control')
     use_ros2_control_cmd = DeclareLaunchArgument(
         name='use_ros2_control',
@@ -46,8 +46,7 @@ def generate_launch_description():
         default_value="True",
         description="Whether to launch rviz2")
 
-
-    ### NODES ###
+    # Nodes
     rviz_cmd = Node(
         name="rviz",
         package="rviz2",
@@ -57,18 +56,16 @@ def generate_launch_description():
         condition=IfCondition(PythonExpression([launch_rviz])),
     )
 
-    ### Launches ###
-
-     # Start robot state publisher
+    # Start robot state publisher
     start_robot_state_publisher_cmd = IncludeLaunchDescription(
-        os.path.join(pkg_description, 'launch', 'robot_state_publisher.launch.py'), 
-        launch_arguments={'use_sim_time': use_sim_time, 
+        os.path.join(pkg_description, 'launch', 'robot_state_publisher.launch.py'),
+        launch_arguments={'use_sim_time': use_sim_time,
                           'use_ros2_control': use_ros2_control}.items())
-    
-    # Launch Gazebo 
+
+    # Launch Gazebo
     start_gazebo_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(pkg_gazebo_ros, 'launch', 'gazebo.launch.py')]),
-        launch_arguments={'world': world, 'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items())   
+        launch_arguments={'world': world, 'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items())
 
     # Spawn robot in Gazebo
     start_spawner_cmd = Node(
@@ -82,7 +79,6 @@ def generate_launch_description():
                    '-y', '0.0',
                    '-z', '0.1',
                    '-Y', '0.0'])
-    
 
     # # Spawn diff_controller
     # start_diff_controller_cmd = Node(
@@ -98,9 +94,6 @@ def generate_launch_description():
     #     executable='spawner',
     #     arguments=['joint_broadcaster'])
 
-
-   
-
     ld = LaunchDescription()
 
     # Declare the launch options
@@ -111,7 +104,7 @@ def generate_launch_description():
     ld.add_action(start_robot_state_publisher_cmd)
     ld.add_action(start_gazebo_cmd)
     ld.add_action(start_spawner_cmd)
-    
+
     ld.add_action(launch_rviz_cmd)
     ld.add_action(rviz_cmd)
 
