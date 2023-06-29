@@ -68,15 +68,15 @@ def generate_launch_description():
     # Start robot state publisher
     start_robot_state_publisher_cmd = IncludeLaunchDescription(
         os.path.join(pkg_description, 'launch', 'robot_state_publisher.launch.py'),
-        launch_arguments={'use_sim_time': use_sim_time,
-                          'use_ros2_control': use_ros2_control}.items())
+        launch_arguments={'use_sim_time': 'true',
+                          'use_ros2_control': 'true'}.items())
 
     # Launch Gazebo
     start_gazebo_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(pkg_gazebo_ros, 'launch', # noqa
-                        'gazebo.launch.py')]), launch_arguments={'world': world, # noqa
-                        'extra_gazebo_args': '--ros-args --params-file ' + # noqa
-                        gazebo_params_file}.items()) # noqa
+                        PythonLaunchDescriptionSource([os.path.join(pkg_gazebo_ros, 'launch', # noqa
+                            'gazebo.launch.py')]), launch_arguments={'world': world, # noqa
+                            'extra_gazebo_args': '--ros-args --params-file ' + # noqa
+                            gazebo_params_file}.items()) # noqa
 
     # Spawn robot in Gazebo
     start_spawner_cmd = Node(
@@ -92,29 +92,18 @@ def generate_launch_description():
                    '-Y', '0.0'])
     
     # Spawn diff_controller
-    start_diff_controller_cmd = Node(
+    diff_drive_spawner = Node(
         condition=IfCondition(use_ros2_control),
         package='controller_manager',
         executable='spawner',
         arguments=['diff_cont'])
 
     # Spawn joint_state_broadcaser
-    start_joint_broadcaster_cmd = Node(
+    joint_broad_spawner = Node(
         condition=IfCondition(use_ros2_control),
         package='controller_manager',
         executable='spawner',
         arguments=['joint_broad'])
-
-    # This helps to address race conditions on startup for the 
-    # controller managers. Note that we are exporting delayed_controller_manager_spawner
-    # instead of just diff_drive_spawner.
-    delayed_controller_manager_spawner = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=start_spawner_cmd,
-            on_exit=[start_diff_controller_cmd, start_joint_broadcaster_cmd]
-        )
-    )
-
 
 
     ld = LaunchDescription()
@@ -128,9 +117,8 @@ def generate_launch_description():
     ld.add_action(start_gazebo_cmd)
     ld.add_action(start_spawner_cmd)
 
-    ld.add_action(start_diff_controller_cmd)
-    ld.add_action(start_joint_broadcaster_cmd)
-    # ld.add_action(delayed_controller_manager_spawner)
+    ld.add_action(diff_drive_spawner)
+    ld.add_action(joint_broad_spawner)
 
     ld.add_action(launch_rviz_cmd)
     ld.add_action(rviz_cmd)

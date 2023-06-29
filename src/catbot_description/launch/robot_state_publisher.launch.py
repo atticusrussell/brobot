@@ -20,32 +20,25 @@ def generate_launch_description():
     robot_description_config = Command(['xacro ', xacro_file, ' use_ros2_control:=',
                                         use_ros2_control, ' sim_mode:=', use_sim_time])
 
-    # Declare the launch arguments
-    declare_use_sim_time_cmd = DeclareLaunchArgument(
-        name='use_sim_time',
-        default_value='False',
-        description='Use simulation (Gazebo) time if true')
-
-    declare_use_ros2_control_cmd = DeclareLaunchArgument(
-        name='use_ros2_control',
-        default_value='False',
-        description='Use ros2_control if true')
     
     # Start robot state publisher node
     params = {'robot_description': robot_description_config, 'use_sim_time': use_sim_time}
-    start_robot_state_publisher_cmd = Node(
+    node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
+        output='screen',
         parameters=[params])
 
-     # Create the launch description and populate
-    ld = LaunchDescription()
+    # Launch!
+    return LaunchDescription([
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value='false',
+            description='Use sim time if true'),
+        DeclareLaunchArgument(
+            'use_ros2_control',
+            default_value='true',
+            description='Use ros2_control if true'),
 
-    # Declare the launch options
-    ld.add_action(declare_use_sim_time_cmd)
-    ld.add_action(declare_use_ros2_control_cmd)
-
-    # Add any actions
-    ld.add_action(start_robot_state_publisher_cmd)
-
-    return ld
+        node_robot_state_publisher
+    ])

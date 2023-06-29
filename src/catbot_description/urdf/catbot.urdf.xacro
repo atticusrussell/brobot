@@ -16,19 +16,4 @@
     <xacro:include filename="gazebo_control.xacro" />
   </xacro:unless>
 
-
-  <!-- Load robot's macro with parameters -->
-  <!-- set prefix if multiple robots are used -->
-
-  <!-- <xacro:if value="$(arg use_ros2_control)"> -->
-    <!-- <xacro:catbot_ros2_control
-      name="catbot"
-      prefix="$(arg prefix)"
-      use_mock_hardware="$(arg use_mock_hardware)"
-      mock_sensor_commands="$(arg mock_sensor_commands)"
-      sim_gazebo_classic="$(arg sim_gazebo_classic)"
-      sim_gazebo="$(arg sim_gazebo)"
-      simulation_controllers="$(arg simulation_controllers)" /> -->
-  <!-- </xacro:if>  -->
-
 </robot>

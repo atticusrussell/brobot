@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 50 # Has to be an integer otherwise errors are encountered
+    update_rate: 30 # Has to be an integer otherwise errors are encountered
 
     diff_cont:
       type: diff_drive_controller/DiffDriveController
