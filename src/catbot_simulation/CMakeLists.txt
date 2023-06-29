@@ -7,9 +7,26 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+
+find_package(gazebo REQUIRED)
+find_package(gazebo_ros REQUIRED)
+find_package(controller_manager REQUIRED)
+find_package(rviz2 REQUIRED)
+
+find_package(catbot_description REQUIRED)
+
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(trajectory_msgs REQUIRED)
+
+INCLUDE_DIRECTORIES(
+  include
+)
+
+install(
+  DIRECTORY launch worlds config
+  DESTINATION share/${PROJECT_NAME}
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
