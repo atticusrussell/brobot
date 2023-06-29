@@ -10,7 +10,8 @@
   <joint name="chassis_joint" type="fixed">
     <parent link="base_link" />
     <child link="still_chassis_assm" />
-    <origin rpy="0.0 0 0" xyz="0 0 0" />
+    <!-- rotate 90deg to orient correctly -->
+    <origin rpy="0.0 0 1.5708" xyz="0 0 0" />
   </joint>
 
   <link name="still_chassis_assm">
