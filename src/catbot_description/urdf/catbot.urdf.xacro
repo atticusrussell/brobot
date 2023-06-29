@@ -22,14 +22,8 @@
   </xacro:unless>
 
 
-  <!-- create link fixed to the "world" -->
-  <link name="world" />
-
   <!-- Load robot's macro with parameters -->
   <!-- set prefix if multiple robots are used -->
-  <xacro:catbot prefix="$(arg prefix)" parent="world" >
-    <origin xyz="0 0 0.0635" rpy="0 0 0" />          <!-- position robot in the world -->
-  </xacro:catbot>
 
   <xacro:if value="$(arg use_ros2_control)">
     <xacro:catbot_ros2_control
