@@ -64,10 +64,10 @@ def generate_launch_description():
 
     # Launch Gazebo
     start_gazebo_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(pkg_gazebo_ros, 'launch',
-                        'gazebo.launch.py')]), launch_arguments={'world': world,
-                        'extra_gazebo_args': '--ros-args --params-file ' +
-                        gazebo_params_file}.items())
+        PythonLaunchDescriptionSource([os.path.join(pkg_gazebo_ros, 'launch', # noqa
+                        'gazebo.launch.py')]), launch_arguments={'world': world, # noqa
+                        'extra_gazebo_args': '--ros-args --params-file ' + # noqa
+                        gazebo_params_file}.items()) # noqa
 
     # Spawn robot in Gazebo
     start_spawner_cmd = Node(
