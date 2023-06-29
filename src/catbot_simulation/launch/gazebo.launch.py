@@ -5,10 +5,7 @@ from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
     IncludeLaunchDescription,
-    RegisterEventHandler,
-    TimerAction,
 )
-from launch.event_handlers import OnProcessExit, OnProcessStart
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
@@ -32,8 +29,6 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
     use_ros2_control = LaunchConfiguration('use_ros2_control')
     launch_rviz = LaunchConfiguration("launch_rviz")
-
-
 
     world_cmd = DeclareLaunchArgument(
         "world",
@@ -90,7 +85,7 @@ def generate_launch_description():
                    '-y', '0.0',
                    '-z', '0.1',
                    '-Y', '0.0'])
-    
+
     # Spawn diff_controller
     diff_drive_spawner = Node(
         condition=IfCondition(use_ros2_control),
@@ -104,7 +99,6 @@ def generate_launch_description():
         package='controller_manager',
         executable='spawner',
         arguments=['joint_broad'])
-
 
     ld = LaunchDescription()
 
