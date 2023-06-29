@@ -28,7 +28,17 @@
         <mesh filename="package://catbot_description/meshes/collision/still_chassis_assm_collision.stl" />
       </geometry>
     </collision>
-    <xacro:chassis_inertia/>
+     <inertial>
+        <origin xyz="0.00027961412402240787278 0.0046876789374875821662 -0.0054409557585405705568"
+        rpy="0 0 0" />
+        <mass value="1.015668141636539179" />
+        <inertia ixx="0.0065127126032337098738"
+        ixy="1.5566438777546685336e-07"
+        ixz="3.6708728527239311778e-06"
+        iyy="0.0025991819436423468752"
+        iyz="6.1954470337197611722e-05"
+        izz="0.0071648278899316356766" />
+      </inertial>
   </link>
 
   <link name="wheel_assm">
@@ -142,7 +152,7 @@
     rpy="-1.5707963267949118791 1.5703086100333234487 1.5707963267962468112" />
     <parent link="still_chassis_assm" />
     <child link="wheel_assm_4" />
-    <axis xyz="0 0 1" />
+    <axis xyz="0 0 -1" />
     <limit effort="1" velocity="20" />
     <joint_properties friction="0.0" />
   </joint>

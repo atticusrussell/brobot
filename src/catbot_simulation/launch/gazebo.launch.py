@@ -25,7 +25,7 @@ def generate_launch_description():
     world = LaunchConfiguration("world")
     world_cmd = DeclareLaunchArgument(
         "world",
-        default_value=os.path.join(pkg_path, "worlds", "empty.world"),
+        default_value=os.path.join(pkg_path, "worlds", "obstacles.world"),
         description="Gazebo world")
     
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -76,7 +76,12 @@ def generate_launch_description():
         executable='spawn_entity.py',
         output='screen',
         arguments=['-topic', 'robot_description',
-                   '-entity', 'catbot'])
+                   '-entity', 'catbot',
+                   "-timeout", "120",
+                   '-x', '0.0',
+                   '-y', '0.0',
+                   '-z', '0.1',
+                   '-Y', '0.0'])
     
 
     # # Spawn diff_controller
