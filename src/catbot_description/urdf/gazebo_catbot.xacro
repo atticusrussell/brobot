@@ -7,6 +7,8 @@
 
     <gazebo reference="wheel_assm">
         <material>Gazebo/Black</material>
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
     </gazebo>
 
     <gazebo reference="wheel_assm_2">
@@ -15,6 +17,8 @@
 
     <gazebo reference="wheel_assm_3">
         <material>Gazebo/Black</material>
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
     </gazebo>
 
     <gazebo reference="wheel_assm_4">
