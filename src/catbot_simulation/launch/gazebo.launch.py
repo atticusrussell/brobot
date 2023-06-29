@@ -52,7 +52,7 @@ def generate_launch_description():
 
     launch_rviz_cmd = DeclareLaunchArgument(
         "launch_rviz",
-        default_value="False",
+        default_value="True",
         description="Whether to launch rviz2")
 
     # Nodes
@@ -68,8 +68,8 @@ def generate_launch_description():
     # Start robot state publisher
     start_robot_state_publisher_cmd = IncludeLaunchDescription(
         os.path.join(pkg_description, 'launch', 'robot_state_publisher.launch.py'),
-        launch_arguments={'use_sim_time': 'true',
-                          'use_ros2_control': 'true'}.items())
+        launch_arguments={'use_sim_time': use_sim_time,
+                          'use_ros2_control': use_ros2_control}.items())
 
     # Launch Gazebo
     start_gazebo_cmd = IncludeLaunchDescription(

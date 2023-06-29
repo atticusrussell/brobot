@@ -129,12 +129,12 @@ Visualization Manager:
             still_chassis_assm:
               wheel_assm:
                 {}
+              wheel_assm_2:
+                {}
               wheel_assm_3:
                 {}
-            wheel_assm_2:
-              {}
-            wheel_assm_4:
-              {}
+              wheel_assm_4:
+                {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -183,26 +183,46 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.5056617259979248
+      Distance: 2.529689311981201
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.34074074029922485
-        Y: -0.6165840029716492
-        Z: 0.3352876305580139
+        X: 0.013159485533833504
+        Y: 0.038974128663539886
+        Z: -0.04805808514356613
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.3553987741470337
+      Pitch: 0.6653984785079956
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.713573932647705
-    Saved: ~
+      Yaw: 3.1785738468170166
+    Saved:
+      - Class: rviz_default_plugins/Orbit
+        Distance: 2.529689311981201
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Focal Point:
+          X: 0.013159485533833504
+          Y: 0.038974128663539886
+          Z: -0.04805808514356613
+        Focal Shape Fixed Size: true
+        Focal Shape Size: 0.05000000074505806
+        Invert Z Axis: false
+        Name: Orbit
+        Near Clip Distance: 0.009999999776482582
+        Pitch: 0.6653984785079956
+        Target Frame: <Fixed Frame>
+        Value: Orbit (rviz)
+        Yaw: 3.1785738468170166
 Window Geometry:
   Displays:
     collapsed: false
@@ -217,5 +237,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1908
-  X: 4520
-  Y: 278
+  X: 4488
+  Y: 246
