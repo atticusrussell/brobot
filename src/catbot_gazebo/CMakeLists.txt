@@ -1,27 +1,23 @@
 cmake_minimum_required(VERSION 3.8)
-project(catbot_simulation)
+project(catbot_gazebo)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
 find_package(ament_cmake REQUIRED)
-
-find_package(rviz2 REQUIRED)
-
-find_package(catbot_description REQUIRED)
-
-find_package(std_msgs REQUIRED)
-find_package(trajectory_msgs REQUIRED)
-
-include_directories(
-  include
-)
+find_package(ament_cmake_python REQUIRED)
+find_package(rclpy REQUIRED)
+ament_python_install_package(scripts)
 
 install(
-  DIRECTORY launch worlds config
+  DIRECTORY launch rviz worlds
   DESTINATION share/${PROJECT_NAME}
+)
+
+install(PROGRAMS
+  scripts/command_timeout.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

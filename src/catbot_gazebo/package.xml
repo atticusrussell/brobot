@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>catbot_simulation</name>
+  <name>catbot_gazebo</name>
   <version>0.0.0</version>
-  <description>simulation files for the Catbot robot</description>
+  <description>Gazebo simulation files for the Catbot robot</description>
   <maintainer email="atticusrussell@gmail.com">Atticus Russell</maintainer>
   <license>MIT</license>
 
