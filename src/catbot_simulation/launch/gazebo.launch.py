@@ -39,7 +39,7 @@ def generate_launch_description():
 
     use_ros2_control_cmd = DeclareLaunchArgument(
         name='use_ros2_control',
-        default_value='True',
+        default_value='False',
         description='Use ros2_control if true')
 
     launch_rviz_cmd = DeclareLaunchArgument(
