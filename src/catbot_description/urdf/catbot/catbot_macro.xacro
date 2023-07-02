@@ -73,14 +73,12 @@
       </inertial>
   </link>
 
-  <joint name="rr_wheel" type="fixed">
+  <joint name="rr_wheel" type="continuous">
     <origin xyz="-0.077614131532514007983 0.080478921592024327269 -0.030500000000000013212"
     rpy="-1.570796326794896558 0.67540343776289657463 -1.5707963267948956698" />
     <parent link="still_chassis_assm" />
     <child link="wheel_assm" />
     <axis xyz="0 0 1" />
-    <!-- <limit effort="1" velocity="20" />
-    <joint_properties friction="0.0" /> -->
   </joint>
 
   <link name="wheel_assm_2">
@@ -119,8 +117,6 @@
     <parent link="still_chassis_assm" />
     <child link="wheel_assm_2" />
     <axis xyz="0 0 1" />
-    <limit effort="1" velocity="20" />
-    <joint_properties friction="0.0" />
   </joint>
 
   <link name="wheel_assm_3">
@@ -153,14 +149,12 @@
     </inertial> 
   </link>
 
-  <joint name="rl_wheel" type="fixed">
+  <joint name="rl_wheel" type="continuous">
     <origin xyz="0.078385868467483257871 0.080478921592024507681 -0.030500000000000044437"
     rpy="-1.570796326794896558 -5.0445758681405660746e-15 1.5707963267948970021" />
     <parent link="still_chassis_assm" />
     <child link="wheel_assm_3" />
     <axis xyz="0 0 1" />
-    <!-- <limit effort="1" velocity="20" />
-    <joint_properties friction="0.0" /> -->
   </joint>
 
   <link name="wheel_assm_4">
@@ -199,7 +193,5 @@
     <parent link="still_chassis_assm" />
     <child link="wheel_assm_4" />
     <axis xyz="0 0 -1" />
-    <limit effort="1" velocity="20" />
-    <joint_properties friction="0.0" />
   </joint>
 </robot>
