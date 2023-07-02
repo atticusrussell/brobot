@@ -1,29 +1,36 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
+    <xacro:macro name="gz_wheel_physics">
+        <!-- <mu1 value="1.0"/>
+        <mu2 value="0.5"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/> -->
+        <!-- <fdir1 value="1 0 0"/> -->
+    </xacro:macro>
+
     <gazebo reference="still_chassis_assm">
         <material>Gazebo/Green</material>
     </gazebo>
 
     <gazebo reference="wheel_assm">
         <material>Gazebo/Black</material>
-        <mu1 value="0.001"/>
-        <mu2 value="0.001"/>
+        <xacro:gz_wheel_physics/>
     </gazebo>
 
     <gazebo reference="wheel_assm_2">
         <material>Gazebo/Blue</material>
+        <xacro:gz_wheel_physics/>
     </gazebo>
 
     <gazebo reference="wheel_assm_3">
         <material>Gazebo/Black</material>
-        <mu1 value="0.001"/>
-        <mu2 value="0.001"/>
+        <xacro:gz_wheel_physics/>
     </gazebo>
 
     <gazebo reference="wheel_assm_4">
         <material>Gazebo/Blue</material>
+        <xacro:gz_wheel_physics/>
     </gazebo>
-
 
 </robot>

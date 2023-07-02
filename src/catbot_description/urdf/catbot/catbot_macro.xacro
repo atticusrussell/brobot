@@ -3,7 +3,11 @@
 
   <xacro:include filename="inertial_macros.xacro"/>
 
-  <xacro:property name="sphere_wheel_offset" value="0.006"/>
+  <!-- simplify wheels to cylinders for collision -->
+  <xacro:arg name="cyl_wheels" default="true"/>
+
+  <xacro:property name="cyl_wheel_offset" value="-0.006"/>
+  <!-- <xacro:property name="simplified_wheel_collision" value="true"/> -->
 
   <link name="base_link"></link>
 
@@ -11,7 +15,7 @@
     <parent link="base_link" />
     <child link="still_chassis_assm" />
     <!-- rotate 90deg to orient correctly -->
-    <origin rpy="0.0 0 1.5708" xyz="0 0 0" />
+    <origin xyz="0 0 0" rpy="0.0 0 1.57" />
   </joint>
 
   <link name="still_chassis_assm">
@@ -54,10 +58,16 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 0" />
-      <geometry>
-        <mesh filename="package://catbot_description/meshes/collision/wheel_assm_collision.stl" />
-      </geometry>
+      <xacro:if value="$(arg cyl_wheels)">
+        <origin xyz="0 0 ${cyl_wheel_offset}" rpy="0 -0 0" />
+        <xacro:wheel_cylinder_collision/>
+      </xacro:if>
+      <xacro:unless value="$(arg cyl_wheels)">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/collision/wheel_assm_collision.stl" />
+        </geometry>
+      </xacro:unless>
     </collision>
     <inertial>
       <origin xyz="2.5876683183573441879e-09 -2.5321947361304500679e-09 -0.0043217676979120569353"
@@ -78,6 +88,7 @@
     <parent link="still_chassis_assm" />
     <child link="wheel_assm" />
     <axis xyz="0 0 1" />
+    <limit effort="1" velocity="20" />
   </joint>
 
   <link name="wheel_assm_2">
@@ -91,10 +102,16 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 0" />
-      <geometry>
-        <mesh filename="package://catbot_description/meshes/collision/wheel_assm_2_collision.stl" />
-      </geometry>
+      <xacro:if value="$(arg cyl_wheels)">
+        <origin xyz="0 0 ${cyl_wheel_offset}" rpy="0 -0 0" />
+        <xacro:wheel_cylinder_collision/>
+      </xacro:if>
+      <xacro:unless value="$(arg cyl_wheels)">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/collision/wheel_assm_2_collision.stl" />
+        </geometry>
+      </xacro:unless>
     </collision>
     <inertial>
       <origin xyz="2.5876683388231371246e-09 -2.5321947856343332086e-09 -0.004321767697912089895"
@@ -115,6 +132,7 @@
     <parent link="still_chassis_assm" />
     <child link="wheel_assm_2" />
     <axis xyz="0 0 1" />
+    <limit effort="1" velocity="20" />
   </joint>
 
   <link name="wheel_assm_3">
@@ -128,10 +146,16 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 0" />
-      <geometry>
-        <mesh filename="package://catbot_description/meshes/collision/wheel_assm_3_collision.stl" />
-      </geometry>
+      <xacro:if value="$(arg cyl_wheels)">
+        <origin xyz="0 0 ${cyl_wheel_offset}" rpy="0 -0 0" />
+        <xacro:wheel_cylinder_collision/>
+      </xacro:if>
+      <xacro:unless value="$(arg cyl_wheels)">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/collision/wheel_assm_3_collision.stl" />
+        </geometry>
+      </xacro:unless>
     </collision>
     <inertial>
       <origin xyz="2.5876683494035538817e-09 -2.5321947903698363363e-09 -0.0043217676979121003034"
@@ -152,6 +176,7 @@
     <parent link="still_chassis_assm" />
     <child link="wheel_assm_3" />
     <axis xyz="0 0 1" />
+    <limit effort="1" velocity="20" />
   </joint>
 
   <link name="wheel_assm_4">
@@ -165,10 +190,16 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 -0 0" />
-      <geometry>
-        <mesh filename="package://catbot_description/meshes/collision/wheel_assm_4_collision.stl" />
-      </geometry>
+      <xacro:if value="$(arg cyl_wheels)">
+        <origin xyz="0 0 ${cyl_wheel_offset}" rpy="0 -0 0" />
+        <xacro:wheel_cylinder_collision/>
+      </xacro:if>
+      <xacro:unless value="$(arg cyl_wheels)">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <geometry>
+          <mesh filename="package://catbot_description/meshes/collision/wheel_assm_4_collision.stl" />
+        </geometry>
+      </xacro:unless>
     </collision>
     <inertial>
       <origin xyz="2.587668269624447972e-09 -2.5321945322547953329e-09 -0.0043217676979121323957"
@@ -189,5 +220,6 @@
     <parent link="still_chassis_assm" />
     <child link="wheel_assm_4" />
     <axis xyz="0 0 -1" />
+    <limit effort="1" velocity="20" />
   </joint>
 </robot>

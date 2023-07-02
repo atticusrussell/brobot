@@ -60,4 +60,10 @@
             <origin xyz="${chassis_length/2} 0 ${chassis_height/2}" rpy="0 0 0"/>
         </xacro:inertial_box>
     </xacro:macro>
+
+    <xacro:macro name="wheel_cylinder_collision">
+        <geometry>
+            <cylinder length="${wheel_thickness}" radius="${wheel_radius}"/>
+        </geometry>
+    </xacro:macro>
 </robot>
