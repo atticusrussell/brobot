@@ -46,7 +46,7 @@
 
     <xacro:macro name="wheel_inertia">
         <xacro:inertial_cylinder mass="${wheel_assm_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 -0.006" rpy="0 0 0"/>
         </xacro:inertial_cylinder>
     </xacro:macro>
 

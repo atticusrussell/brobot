@@ -4,10 +4,11 @@
   <xacro:include filename="inertial_macros.xacro"/>
 
   <!-- simplify wheels to cylinders for collision -->
-  <xacro:arg name="cyl_wheels" default="true"/>
-
+  <xacro:arg name="cyl_wheel_coll" default="true"/>
   <xacro:property name="cyl_wheel_offset" value="-0.006"/>
-  <!-- <xacro:property name="simplified_wheel_collision" value="true"/> -->
+
+  <!-- model wheels with inertial cylinder -->
+  <xacro:arg name="wheel_inertia_cyl" default="true"/>
 
   <link name="base_link"></link>
 
@@ -58,28 +59,33 @@
       </material>
     </visual>
     <collision>
-      <xacro:if value="$(arg cyl_wheels)">
+      <xacro:if value="$(arg cyl_wheel_coll)">
         <origin xyz="0 0 ${cyl_wheel_offset}" rpy="0 -0 0" />
         <xacro:wheel_cylinder_collision/>
       </xacro:if>
-      <xacro:unless value="$(arg cyl_wheels)">
+      <xacro:unless value="$(arg cyl_wheel_coll)">
         <origin xyz="0 0 0" rpy="0 -0 0" />
         <geometry>
           <mesh filename="package://catbot_description/meshes/collision/wheel_assm_collision.stl" />
         </geometry>
       </xacro:unless>
     </collision>
-    <inertial>
-      <origin xyz="2.5876683183573441879e-09 -2.5321947361304500679e-09 -0.0043217676979120569353"
-      rpy="0 0 0" />
-      <mass value="0.054377782220193432439" />
-      <inertia ixx="1.7947780629583346784e-05"
-      ixy="-3.8234084819748992999e-12"
-      ixz="-1.6934852924892931359e-12"
-      iyy="1.7621269066491268497e-05"
-      iyz="-2.0136050748759971485e-12"
-      izz="2.8213568549230894094e-05" />
+    <xacro:if value="$(arg wheel_inertia_cyl)">
+      <xacro:wheel_inertia/>
+    </xacro:if>
+    <xacro:unless value="$(arg wheel_inertia_cyl)">
+      <inertial>  
+        <origin xyz="2.5876683183573441879e-09 -2.5321947361304500679e-09 -0.0043217676979120569353"
+        rpy="0 0 0" />
+        <mass value="0.054377782220193432439" />
+        <inertia ixx="1.7947780629583346784e-05"
+        ixy="-3.8234084819748992999e-12"
+        ixz="-1.6934852924892931359e-12"
+        iyy="1.7621269066491268497e-05"
+        iyz="-2.0136050748759971485e-12"
+        izz="2.8213568549230894094e-05" />
       </inertial>
+    </xacro:unless>
   </link>
 
   <joint name="rear_right_wheel_joint" type="continuous">
@@ -102,28 +108,33 @@
       </material>
     </visual>
     <collision>
-      <xacro:if value="$(arg cyl_wheels)">
+      <xacro:if value="$(arg cyl_wheel_coll)">
         <origin xyz="0 0 ${cyl_wheel_offset}" rpy="0 -0 0" />
         <xacro:wheel_cylinder_collision/>
       </xacro:if>
-      <xacro:unless value="$(arg cyl_wheels)">
+      <xacro:unless value="$(arg cyl_wheel_coll)">
         <origin xyz="0 0 0" rpy="0 -0 0" />
         <geometry>
           <mesh filename="package://catbot_description/meshes/collision/wheel_assm_2_collision.stl" />
         </geometry>
       </xacro:unless>
     </collision>
-    <inertial>
-      <origin xyz="2.5876683388231371246e-09 -2.5321947856343332086e-09 -0.004321767697912089895"
-      rpy="0 0 0" />
-      <mass value="0.054377782220193432439" />
-      <inertia ixx="1.7947780629583370501e-05"
-      ixy="-3.8234084811821872389e-12"
-      ixz="-1.6934852959410392741e-12"
-      iyy="1.7621269066491275274e-05"
-      iyz="-2.013605069932675335e-12"
-      izz="2.8213568549230904259e-05" />
-    </inertial>
+    <xacro:if value="$(arg wheel_inertia_cyl)">
+      <xacro:wheel_inertia/>
+    </xacro:if>
+    <xacro:unless value="$(arg wheel_inertia_cyl)">
+      <inertial>
+        <origin xyz="2.5876683388231371246e-09 -2.5321947856343332086e-09 -0.004321767697912089895"
+        rpy="0 0 0" />
+        <mass value="0.054377782220193432439" />
+        <inertia ixx="1.7947780629583370501e-05"
+        ixy="-3.8234084811821872389e-12"
+        ixz="-1.6934852959410392741e-12"
+        iyy="1.7621269066491275274e-05"
+        iyz="-2.013605069932675335e-12"
+        izz="2.8213568549230904259e-05" />
+      </inertial>
+    </xacro:unless>
   </link>
 
   <joint name="front_right_wheel_joint" type="continuous">
@@ -146,28 +157,33 @@
       </material>
     </visual>
     <collision>
-      <xacro:if value="$(arg cyl_wheels)">
+      <xacro:if value="$(arg cyl_wheel_coll)">
         <origin xyz="0 0 ${cyl_wheel_offset}" rpy="0 -0 0" />
         <xacro:wheel_cylinder_collision/>
       </xacro:if>
-      <xacro:unless value="$(arg cyl_wheels)">
+      <xacro:unless value="$(arg cyl_wheel_coll)">
         <origin xyz="0 0 0" rpy="0 -0 0" />
         <geometry>
           <mesh filename="package://catbot_description/meshes/collision/wheel_assm_3_collision.stl" />
         </geometry>
       </xacro:unless>
     </collision>
-    <inertial>
-      <origin xyz="2.5876683494035538817e-09 -2.5321947903698363363e-09 -0.0043217676979121003034"
-      rpy="0 0 0" />
-      <mass value="0.054377782220193432439" />
-      <inertia ixx="1.7947780629583370501e-05"
-      ixy="-3.8234084811821831999e-12"
-      ixz="-1.6934852949411820834e-12"
-      iyy="1.7621269066491278662e-05"
-      iyz="-2.0136050682372531551e-12"
-      izz="2.8213568549230904259e-05" />
-    </inertial> 
+    <xacro:if value="$(arg wheel_inertia_cyl)">
+      <xacro:wheel_inertia/>
+    </xacro:if>
+    <xacro:unless value="$(arg wheel_inertia_cyl)">
+      <inertial>
+        <origin xyz="2.5876683494035538817e-09 -2.5321947903698363363e-09 -0.0043217676979121003034"
+        rpy="0 0 0" />
+        <mass value="0.054377782220193432439" />
+        <inertia ixx="1.7947780629583370501e-05"
+        ixy="-3.8234084811821831999e-12"
+        ixz="-1.6934852949411820834e-12"
+        iyy="1.7621269066491278662e-05"
+        iyz="-2.0136050682372531551e-12"
+        izz="2.8213568549230904259e-05" />
+      </inertial> 
+    </xacro:unless>
   </link>
 
   <joint name="rear_left_wheel_joint" type="continuous">
@@ -190,28 +206,33 @@
       </material>
     </visual>
     <collision>
-      <xacro:if value="$(arg cyl_wheels)">
+      <xacro:if value="$(arg cyl_wheel_coll)">
         <origin xyz="0 0 ${cyl_wheel_offset}" rpy="0 -0 0" />
         <xacro:wheel_cylinder_collision/>
       </xacro:if>
-      <xacro:unless value="$(arg cyl_wheels)">
+      <xacro:unless value="$(arg cyl_wheel_coll)">
         <origin xyz="0 0 0" rpy="0 -0 0" />
         <geometry>
           <mesh filename="package://catbot_description/meshes/collision/wheel_assm_4_collision.stl" />
         </geometry>
       </xacro:unless>
     </collision>
-    <inertial>
-      <origin xyz="2.587668269624447972e-09 -2.5321945322547953329e-09 -0.0043217676979121323957"
-      rpy="0 0 0" />
-      <mass value="0.054377782220193432439" />
-      <inertia ixx="1.7947780629583373889e-05"
-      ixy="-3.8234084825756295263e-12"
-      ixz="-1.6934852991867637216e-12"
-      iyy="1.7621269066491278662e-05"
-      iyz="-2.0136050681091290175e-12"
+    <xacro:if value="$(arg wheel_inertia_cyl)">
+      <xacro:wheel_inertia/>
+    </xacro:if>
+    <xacro:unless value="$(arg wheel_inertia_cyl)">
+       <inertial>
+        <origin xyz="2.587668269624447972e-09 -2.5321945322547953329e-09 -0.0043217676979121323957"
+        rpy="0 0 0" />
+        <mass value="0.054377782220193432439" />
+        <inertia ixx="1.7947780629583373889e-05"
+        ixy="-3.8234084825756295263e-12"
+        ixz="-1.6934852991867637216e-12"
+        iyy="1.7621269066491278662e-05"
+        iyz="-2.0136050681091290175e-12"
       izz="2.8213568549230907647e-05" />
-    </inertial>
+      </inertial>
+    </xacro:unless>
   </link>
 
   <joint name="front_left_wheel_joint" type="continuous">
