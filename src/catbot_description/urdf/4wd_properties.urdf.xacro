@@ -8,10 +8,13 @@
   <xacro:property name="wheel_radius" value="0.033" />
   <xacro:property name="wheel_width" value="0.0265" />
   <xacro:property name="wheel_pos_x" value="0.087" />
-  <xacro:property name="wheel_pos_y" value="0.08" />
-  <xacro:property name="wheel_pos_z" value="-0.06" />
+  <xacro:property name="wheel_pos_y" value="0.07838587" />
+  <xacro:property name="wheel_pos_z" value="-0.0304" />
   <xacro:property name="wheel_mass" value=".054378" />
   <xacro:property name="wheel_torque" value="20" />
+
+  <xacro:property name="origin_to_front_wheels_x" value="0.06802108" />
+  <xacro:property name="origin_to_rear_wheels_x" value="0.08047892" />
 
   <xacro:property name="laser_pose">
     <origin xyz="0.0475 0 0.082" rpy="0 0 0"/>
