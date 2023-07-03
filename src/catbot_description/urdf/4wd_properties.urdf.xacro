@@ -5,8 +5,12 @@
   <xacro:property name="base_height" value="0.09368130" />
   <xacro:property name="base_mass" value="1.016" />
 
-  <xacro:property name="wheel_radius" value="0.033" />
+  <xacro:property name="wheel_radius" value="${0.00240839 + 0.03150000}" />
   <xacro:property name="wheel_width" value="0.0265" />
+  <xacro:property name="wheel_assembly_width" value="0.03140000"/>
+  <!-- not sure why this is needed, but makes collision line up with vidual -->
+  <xacro:property name="wheel_collision_offset_correction" value="0.002"/>
+  <xacro:property name="wheel_collision_offset" value="${wheel_collision_offset_correction + wheel_assembly_width - wheel_width}"/>
   <xacro:property name="wheel_pos_x" value="0.087" />
   <xacro:property name="wheel_pos_y" value="0.07838587" />
   <xacro:property name="wheel_pos_z" value="-0.0304" />

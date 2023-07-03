@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="wheel" params="side radius width pos_x pos_y pos_z mass visual_yaw">
+  <xacro:macro name="wheel" params="side radius width collision_offset pos_x pos_y pos_z mass visual_yaw">
     <link name="${side}_wheel_link">
       <visual>
         <origin xyz="0 0 0" rpy="${pi/2} 0 ${visual_yaw}"/>
@@ -16,7 +16,7 @@
       </material>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <origin xyz="0 ${collision_offset} 0" rpy="${pi/2} 0 0"/>
         <geometry>
           <cylinder radius="${radius}" length="${width}"/>
         </geometry>
