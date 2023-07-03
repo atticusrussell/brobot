@@ -5,14 +5,14 @@
     
     <link name="base_link">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 1.57"/>
         <geometry>
-          <box size="${length} ${width} ${height}"/>
-          <!-- <mesh filename="" scale="0.001 0.001 0.001"/> -->
+          <!-- <box size="${length} ${width} ${height}"/> -->
+          <mesh filename="file://$(find catbot_description)/meshes/visual/still_chassis_assm_visual.stl"/>
         </geometry>
-        <material name="yellow">
-          <color rgba="0.8784 0.6627 0.6627 1.0"/>
-        </material>
+        <material name="still_chassis_assm_material">
+        <color rgba="0.66987717125153911635 0.81712318213796708566 0.66602980483018847657 1.0" />
+      </material>
       </visual>
       
       <collision>
@@ -32,14 +32,7 @@
     </link>
 
     <gazebo reference="base_link">  
-      <visual>  
-        <material>
-          <ambient>0.8392 0.6314 0.0 1.0</ambient>  
-          <diffuse>0.8392 0.6314 0.0 1.0</diffuse>  
-          <specular>0.99 0.99 0.99 1.0</specular>  
-          <emissive>0.0 0.0 0.0 0.0</emissive>  
-        </material>
-      </visual> 
+      <material>Gazebo/Green</material>
     </gazebo>
 
     <joint name="base_to_footprint" type="fixed">
