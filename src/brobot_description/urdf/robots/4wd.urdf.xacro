@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="brobot_2wd" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="brobot" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:include filename="$(find brobot_description)/urdf/4wd_properties.urdf.xacro" />
   <xacro:include filename="$(find brobot_description)/urdf/mech/base.urdf.xacro" />
