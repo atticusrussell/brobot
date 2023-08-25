@@ -6,7 +6,6 @@
   <xacro:include filename="$(find brobot_description)/urdf/mech/wheel.urdf.xacro" />
   <xacro:include filename="$(find brobot_description)/urdf/sensors/imu.urdf.xacro" />
   <xacro:include filename="$(find brobot_description)/urdf/sensors/generic_laser.urdf.xacro" />
-  <xacro:include filename="$(find brobot_description)/urdf/sensors/depth_sensor.urdf.xacro" />
   <xacro:include filename="$(find brobot_description)/urdf/sensors/camera.urdf.xacro" />
   <xacro:include filename="$(find brobot_description)/urdf/controllers/skid_steer.urdf.xacro" />
 
