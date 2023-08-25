@@ -79,6 +79,8 @@ Some other tools or parts used in the project are as follows:
 - [Allison Thackston](https://github.com/athackst/vscode_ros2_workspace)
 - [Articulated Robotics](https://articulatedrobotics.xyz/)
 - [Lidarbot](https://github.com/TheNoobInventor/lidarbot)
+- [linorobot2](https://github.com/linorobot/linorobot2)
+- [linrobot2_hardware](https://github.com/linorobot/linorobot2_hardware)
 - [ros2_rover](https://github.com/mgonzs13/ros2_rover/)
 - Cricket
 <p align='center'>
