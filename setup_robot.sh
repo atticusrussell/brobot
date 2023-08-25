@@ -38,7 +38,7 @@ fi
 
 sudo apt install python3-vcstool build-essential
 sudo apt update && rosdep update
-rosdep install --from-path src --ignore-src -y
+rosdep install --from-path src --ignore-src -y --skip-keys microxrcedds_agent --skip-keys micro_ros_agent
 colcon build
 source install/setup.bash
 
