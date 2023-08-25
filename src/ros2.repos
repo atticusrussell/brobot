@@ -1,4 +1,8 @@
 repositories:
+  micro_ros_setup:
+    type: git
+    url: git@github.com:micro-ROS/micro_ros_setup.git
+    version: $ROS_DISTRO
   ## EXAMPLE DEPENDENCY
 #   <some_ros_package>:
 #     type: git
