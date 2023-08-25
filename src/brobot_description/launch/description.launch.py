@@ -22,10 +22,9 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    robot_base = os.getenv('BROBOT_BASE')
 
     urdf_path = PathJoinSubstitution(
-        [FindPackageShare("brobot_description"), "urdf/robots", f"{robot_base}.urdf.xacro"]
+        [FindPackageShare("brobot_description"), "urdf/robots/4wd.urdf.xacro"]
     )
 
     rviz_config_path = PathJoinSubstitution(
