@@ -31,10 +31,10 @@ def generate_launch_description():
     ekf_config_path = PathJoinSubstitution(
         [FindPackageShare("brobot_base"), "config", "ekf.yaml"]
     )
-    world_path = "/usr/share/gazebo-11/worlds/willowgarage.world"
-    # world_path = PathJoinSubstitution(
-    #     [FindPackageShare("brobot_gazebo"), "worlds", "gas_station.world"]
-    # )
+
+    world_path = PathJoinSubstitution(
+        [FindPackageShare("brobot_gazebo"), "worlds", "gas_station.world"]
+    )
 
     description_launch_path = PathJoinSubstitution(
         [FindPackageShare('brobot_description'), 'launch', 'description.launch.py']
