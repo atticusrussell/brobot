@@ -5,12 +5,17 @@ WORKSPACE_DIR=$(pwd)
 
 # install rplidar ros2 drivers
 sudo apt install -y ros-$ROS_DISTRO-rplidar-ros
-cd /tmp
-wget https://raw.githubusercontent.com/allenh1/rplidar_ros/ros2/scripts/rplidar.rules
-sudo cp rplidar.rules /etc/udev/rules.d/
+# Check if rplidar.rules already exists in /etc/udev/rules.d/
+if [ ! -f /etc/udev/rules.d/rplidar.rules ]; then
+    cd /tmp
+    wget https://raw.githubusercontent.com/allenh1/rplidar_ros/ros2/scripts/rplidar.rules
+    sudo cp rplidar.rules /etc/udev/rules.d/
+    cd "$WORKSPACE_DIR"
+else
+    echo "rplidar.rules already exists. Skipping download and copy."
+fi
 
 # Make colcon ignore non-robot packages (simulation and X11 dependencies)
-cd "$WORKSPACE_DIR"
 touch src/brobot_gazebo/COLCON_IGNORE
 touch src/brobot_viz/COLCON_IGNORE
 touch src/catbot_simulation/COLCON_IGNORE
