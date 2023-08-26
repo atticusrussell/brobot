@@ -1,9 +1,4 @@
-repositories:
-  micro_ros_setup:
-    type: git
-    url: git@github.com:micro-ROS/micro_ros_setup.git
-    version: humble
-  ## EXAMPLE DEPENDENCY
+## EXAMPLE DEPENDENCY
 #   <some_ros_package>:
 #     type: git
 #     url: git@github.com:<some_github_namespace>/<some_ros_package>.git
