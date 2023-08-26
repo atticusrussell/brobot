@@ -3,12 +3,11 @@
 <package format="3">
     <name>brobot_gazebo</name>
     <version>0.0.0</version>
-    <description>Linorobot2 Gazebo Package</description>
-    <maintainer email="jimenojmm@gmail.com">Juan Miguel Jimeno</maintainer>
+    <description>Brobot Gazebo Package</description>
+    <maintainer email="atticusrussell@gmail.com">Atticus Russell</maintainer>
     <license>Apache 2.0</license>
-    <url type="website">linorobot.org</url>
-    <url type="repository">https://github.com/linorobot/brobot</url>
-    <url type="bugtracker">https://github.com/linorobot/brobot/issues</url>
+    <url type="repository">https://github.com/atticusrussell/brobot</url>
+    <url type="bugtracker">https://github.com/atticusrussell/brobot/issues</url>
     <buildtool_depend>ament_cmake</buildtool_depend>
     <buildtool_depend>ament_cmake_python</buildtool_depend>
     <exec_depend>gazebo_ros_pkgs</exec_depend>
