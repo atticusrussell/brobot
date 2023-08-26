@@ -55,6 +55,6 @@ for dir in brobot* catbot*; do
 done
 
 # Install brobot packages
-rosdep update && rosdep install --from-path src --ignore-src -y --skip-keys microxrcedds_agent
+rosdep update && rosdep install --from-path src --ignore-src -y --skip-keys microxrcedds_agent --skip-keys micro_ros_agent
 colcon build
 source install/setup.bash
