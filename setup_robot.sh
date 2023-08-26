@@ -15,6 +15,9 @@ touch src/brobot_gazebo/COLCON_IGNORE
 touch src/brobot_viz/COLCON_IGNORE
 touch src/catbot_simulation/COLCON_IGNORE
 
+# hide all brobot packages so they're not seen by rosdep
+mv src/brobobot* ../..
+mv src/catbot* ../..
 
 # Download and install micro-ROS
 cd "$WORKSPACE_DIR"
@@ -29,6 +32,10 @@ source install/setup.bash
 ros2 run micro_ros_setup create_agent_ws.sh
 ros2 run micro_ros_setup build_agent.sh
 source install/setup.bash
+
+# Move brobot packages back
+mv ../../brobot* src
+mv ../../catbot* src
 
 # Install brobot packages
 rosdep update && rosdep install --from-path src --ignore-src -y --skip-keys microxrcedds_agent
