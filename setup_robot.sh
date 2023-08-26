@@ -24,11 +24,17 @@ done
 
 # Download and install micro-ROS
 cd "$WORKSPACE_DIR"
-git clone -b $ROS_DISTRO https://github.com/micro-ROS/micro_ros_setup src/micro_ros_setup
+
+if [ ! -d "src/micro_ros_setup" ]; then
+    git clone -b $ROS_DISTRO https://github.com/micro-ROS/micro_ros_setup src/micro_ros_setup
+else
+    echo "src/micro_ros_setup already exists. Skipping clone."
+fi
+
 sudo apt install python3-vcstool build-essential
 sudo apt update && rosdep update
 rosdep install --from-path src --ignore-src -y
-colcon build --packages-skip brobot brobot_base brobot_bringup brobot_description brobot_navigation
+colcon build
 source install/setup.bash
 
 # Setup micro-ROS agent
