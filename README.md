@@ -30,13 +30,28 @@ See [the workspace template](/template.md) for workspace usage instructions.
 - [ ] Convert CAD to more detailed URDF
 - [ ] Patch kernel to enable use of RPi Camera Module 3
 
-## Simulation
+#### Supervision of URDF work
 <p align='center'>
     <img src=docs/images/cricket_gazebo.jpg width="200">
 </p>
 
 ## Hardware
-#### Robot Under Construction
+####  BroBot Front View
+<p align='center'>
+    <img src=docs/images/20231024_200513.jpg>
+</p>
+
+####  BroBot Side View
+<p align='center'>
+    <img src=docs/images/20231024_200719.jpg>
+</p>
+
+####  BroBot Rear Top View
+<p align='center'>
+    <img src=docs/images/20231024_200519.jpg>
+</p>
+
+#### BroBot Initial Construction
 <p align='center'>
     <img src=docs/images/wip_catbot.jpg width="1000">
 </p>
