@@ -28,6 +28,8 @@
         "echo 'Step 2: Fixing mesh paths and saving final URDF...'",
         "mkdir -p ../urdf",
         "python fix_ros_mesh_paths.py ballbot_generated/robot.urdf ../urdf/ballbot.urdf ballbot_description meshes",
+        "echo 'Step 2b: Renaming *_joint_speed -> *_joint (getting rid of onshape-to-robot convention)...'",
+        "sed -i -E 's/_joint_speed([\"<])/_joint\\1/g' ../urdf/ballbot.urdf",
         "echo 'Step 3: Copying meshes to final location...'",
         "mkdir -p ../meshes",
         "[ -d ballbot_generated/assets/merged ] && mkdir -p ../meshes/merged",
