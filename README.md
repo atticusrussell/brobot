@@ -9,7 +9,8 @@ The original v1 platform paired a Raspberry Pi 4 with a Teensy 4.1 (motor/encode
 
 **Status**: v2 in active development. See:
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — system design, node graph, TF tree, open architectural questions
-- [`docs/ROADMAP.md`](docs/ROADMAP.md) — milestone breakdown
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — tracks, dependency graph, milestone goals, reading
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — branching, merging, tagging, issue conventions
 - [GitHub Project: Ballbot](https://github.com/users/atticusrussell/projects/6) — live progress
 
 ## Hardware
