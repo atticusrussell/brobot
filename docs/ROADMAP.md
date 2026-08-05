@@ -57,6 +57,7 @@ flowchart TD
     H4["HW-4<br/>v2 Build &amp; Mount<br/><i>CoG locks here</i>"]
     H5["HW-5<br/>On-Robot Arm Integration"]
 
+    D0["DET-0<br/>Stand-in Detector"]
     D1["DET-1<br/>Sim Detector"]
     D2["DET-2<br/>Real Detector"]
     V1["VO-1<br/>Sim VO + Keep-Out"]
@@ -77,6 +78,7 @@ flowchart TD
     N2 --> N4
     H4 --> N4
 
+    N1 --> D0
     H1 --> D1
     H3 --> D1
     N3 --> D1
@@ -95,17 +97,19 @@ flowchart TD
 
     N2 --> B1
     B1 --> B2
-    D2 --> B2
+    D0 --> B2
     B2 --> B3
     V2 --> B3
     B3 --> B4
     A2 --> B4
 
     N4 --> X
+    D2 --> X
     B4 --> X
 
     style N1 fill:#2d5a3d,stroke:#4a9,color:#fff
     style H1 fill:#3d3d5a,stroke:#77a,color:#fff
+    style D0 fill:#5a4a2d,stroke:#c93,color:#fff
 ```
 
 NAV and HW are independent tracks, each with an unblocked entry point. NAV runs on the existing robot;
@@ -114,6 +118,12 @@ HW-1 and HW-2 are bench work requiring neither chassis nor CAD.
 Simulation work downstream of HW-3 is gated on the v2 sensor and arm frames in the URDF rather than on
 the full CAD milestone. Plate cutouts and mounting hardware do not affect it, so that subset can be
 delivered early if the rest of CAD runs long.
+
+DET-0 exists so that autonomy is not gated on model training. The behavior tree subscribes only to
+`/pickleball/poses` and cannot tell which detector produced them, so the existing colour-blob tracker
+can drive it once it conforms to the contract. This puts a complete fetch loop within reach on the
+current robot, rather than only after the v2 build. DET-2 carries the re-validation of that tree
+against the trained detector.
 
 ---
 
@@ -179,8 +189,13 @@ what determines the scope of NAV-4.
 
 | ID | Goal | Exit criterion |
 |---|---|---|
+| **DET-0** | Existing colour-blob tracker conforms to the detection contract | `ball_tracker` publishes `/pickleball/detections` and `/pickleball/poses`; a ball at a surveyed position projects to within a documented tolerance |
 | **DET-1** | YOLO detector trained on synthetic data | Sim camera model reconciled against real rpicam3 intrinsics; ≥90% mAP on held-out synthetic test set |
-| **DET-2** | Detector deployed on the Orin | ≥30 fps on Orin; ≥90% precision at 0.5–3 m indoors; ball detections published as ground-plane poses in the `map` frame |
+| **DET-2** | Detector deployed on the Orin | ≥30 fps on Orin; ≥90% precision at 0.5–3 m indoors; behavior tree re-validated against the trained detector in place of the stand-in |
+
+`ball_tracker` is retained permanently rather than replaced. Beyond DET-0's stand-in role it remains a
+fallback when inference is unavailable and a tuning aid. Ground-plane projection already exists in its
+`detect_ball_3d` node, so `detection_projector` is a port to the message contract rather than new work.
 
 Synthetic training data is only useful once the simulated camera matches the physical one in both
 respects: intrinsics — field of view and distortion — come from the sensor itself in HW-1, while

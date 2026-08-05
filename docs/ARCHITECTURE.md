@@ -71,13 +71,20 @@ No new nodes. Navigation is configuration, mapping, and tuning over the baseline
 ```mermaid
 flowchart LR
     cam[/camera/image_raw/] --> detector[pickleball_detector<br/>YOLO TensorRT]
+    cam --> blob[ball_tracker<br/>colour blob]
     detector -->|/pickleball/detections<br/>vision_msgs/Detection2DArray| projector[detection_projector]
+    blob -.same contract.-> projector
     projector -->|/pickleball/poses<br/>geometry_msgs/PoseArray<br/>frame: map| bt[Behavior Tree]
+    style blob stroke-dasharray: 4 4
 ```
 
 `detection_projector` lifts 2D pixel detections to 3D poses on the floor plane using known camera extrinsics (no depth cam needed for a ball known to be ground-level).
 
-`ball_tracker` (legacy) stays alongside as a fallback / tuning aid; the behavior tree consumes from `pickleball_detector`.
+**Two detectors publish the same contract.** The behavior tree subscribes only to `/pickleball/poses` and cannot distinguish their output, so either may drive it. `pickleball_detector` (YOLO) is the production path; `ball_tracker` (colour blob) serves three purposes: an interface stand-in that lets autonomy be developed before a trained model exists, a fallback when inference is unavailable, and a tuning aid.
+
+The stand-in role is what makes an end-to-end fetch loop reachable on the current robot rather than only after the v2 build and detector training. `ball_tracker` is deliberately not deleted when YOLO lands.
+
+`ball_tracker`'s `follow_ball` node drives `/cmd_vel` directly, bypassing nav2 and `twist_mux`. That path predates this architecture and conflicts with the mux priority scheme; it is not part of the target design and should be remapped to a muxed input or retired.
 
 ### Visual odometry + court keep-out
 
@@ -144,7 +151,7 @@ Load-bearing custom topics. Standard ROS topics (`/scan`, `/odom`, `/cmd_vel`, `
 
 | Topic | Message type | Publisher | Subscribers | Notes |
 |---|---|---|---|---|
-| `/pickleball/detections` | `vision_msgs/Detection2DArray` | `pickleball_detector` | `detection_projector` | Per-frame 2D bounding boxes + confidence |
+| `/pickleball/detections` | `vision_msgs/Detection2DArray` | `pickleball_detector` **or** `ball_tracker` | `detection_projector` | Per-frame 2D bounding boxes + confidence. Exactly one publisher runs at a time |
 | `/pickleball/poses` | `geometry_msgs/PoseArray` | `detection_projector` | BT, RViz | Ball positions in `map` frame, ground-plane projected |
 | `/court/polygon` | `geometry_msgs/PolygonStamped` | `court_pose_estimator` | nav2 KeepoutFilter, BT | Court-edge polygon in `map` frame, defines keep-out |
 | `/court/pose_correction` | `geometry_msgs/PoseWithCovarianceStamped` | `court_pose_estimator` | `ekf_filter_node` | VO pose against court lines, fused into EKF |
@@ -268,7 +275,7 @@ flowchart TB
 | `ballbot_perception` | Court line detection, VO, court polygon publisher | new |
 | `ballbot_manipulation` | Visual servoing, arm action server, grasp | new |
 | `ballbot_behavior` | Behavior tree XMLs + custom BT nodes | new |
-| `ball_tracker` | Color-blob detector | legacy; retained as fallback / tuning aid |
+| `ball_tracker` | Colour-blob detector, 2D and ground-plane projection | retained: interface stand-in, fallback, tuning aid |
 
 ---
 
@@ -281,7 +288,7 @@ These are explicit unresolved decisions. Each will move out of this section as i
 3. **nav2 controller — DWB or MPPI?** MPPI is newer, smoother, samples thousands of trajectory rollouts. With Orin Nano Super's compute, MPPI is no longer compute-prohibitive. DWB is the safer-tested default. Decide during nav tuning. *Status: open, leaning MPPI.*
 4. **VO + AMCL fusion strategy** — Fuse VO always (loose EKF coupling), or switch on/off based on environment (indoor=AMCL, outdoor=VO)? Loose fusion is simpler; switching is more correct but adds state. *Status: tentatively loose fusion always.*
 5. ~~**Compute topology — single Jetson or distributed?**~~ **CLOSED**: single Jetson Orin Nano Super. 67 INT8 TOPS comfortably handles nav + inference + servoing simultaneously. Distributed remains a fun side experiment, not a requirement.
-6. **Detector replacement** — Does the new YOLO detector replace `ball_tracker` entirely, or live alongside? Currently planned alongside (legacy as fallback / tuning aid). Revisit once the real detector is proven. *Status: alongside.*
+6. ~~**Detector replacement** — Does the new YOLO detector replace `ball_tracker` entirely, or live alongside?~~ **CLOSED**: alongside, permanently. Beyond fallback and tuning aid, `ball_tracker` conforms to the detection contract and stands in for the detector during autonomy bring-up, which decouples behavior tree development from model training.
 7. **Eye-in-hand camera type** — DOFBOT-SE ships with a USB camera + bracket. Orin Nano Super CSI port is available and supports rpicam3. USB is simpler / arm-supplied; CSI gives lower latency + better quality. *Status: tentatively use the supplied USB cam to start, swap if quality drives a need.*
 8. **Map storage strategy** — Single static apartment map, or session-rebuilt? Pickleball court geometry is *known*, so the court "map" is just the published polygon, not a SLAM map. Indoor map is static (saved). *Status: indoor static, outdoor geometric.*
 9. **Search behavior between fetches** — How does the robot wait for a ball to come into view? Options: (a) park at a chosen vantage point, chassis cam pointed at court; (b) low-rate patrol along the sideline; (c) park + active pan/tilt scan with a 2-DOF camera platform (see #10). Doesn't change architecture — only the BT search subtree. *Status: deferred; pick (a) park-at-corner as v1 placeholder.*
@@ -310,6 +317,8 @@ These are explicit unresolved decisions. Each will move out of this section as i
 - **2026-08-05** — Sequential milestone numbers replaced by track IDs (`NAV-`, `HW-`, `DET-`, `VO-`, `ARM-`, `BT-`, `DEMO`). Reason: hardware and navigation now run in parallel, so a single linear number asserted an ordering that no longer held. `ROADMAP.md` carries the dependency graph; entries above this line keep their original IDs, since a decision log records what was decided at the time.
 - **2026-08-05** — Milestone references removed from this document. Reason: sequencing belongs in `ROADMAP.md`, and duplicating it here created two places to update. Sections now describe subsystems rather than phase deltas. Decision-log entries are exempt as historical record.
 - **2026-08-05** — Behavior tree separated into its own track rather than appended to the navigation, detector, VO, and manipulation milestones. Reason: `ballbot_behavior` is its own package, and a capability milestone should close on whether the capability works, not on whether the autonomy layer has been wired to it.
+- **2026-08-05** — `ball_tracker` retained permanently and promoted to interface stand-in, closing open question 6. Reason: the behavior tree consumes `/pickleball/poses` and cannot tell which detector produced them, so a colour-blob detector conforming to the contract unblocks autonomy development without waiting on the v2 build or a trained model. Behaviour trees validated against the stand-in are re-validated against YOLO when it lands.
+- **2026-08-05** — `detection_projector` treated as a port of `ball_tracker`'s existing `detect_ball_3d` node rather than new work. Reason: ground-plane projection from camera extrinsics already exists there; what is missing is the message contract and the map-frame transform.
 
 ---
 
