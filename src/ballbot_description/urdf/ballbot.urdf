@@ -1440,7 +1440,7 @@
     </visual>
   </link>
   <!-- Joint from still_chassis_assm to wheel_assm -->
-  <joint name="front_left_wheel_joint_speed" type="continuous">
+  <joint name="front_left_wheel_joint" type="continuous">
     <origin xyz="0.0680211 0.0783859 -0.0305" rpy="-1.5708 -1.4446e-29 9.71445e-17"/>
     <parent link="still_chassis_assm"/>
     <child link="wheel_assm"/>
@@ -1512,7 +1512,7 @@
     </visual>
   </link>
   <!-- Joint from still_chassis_assm to wheel_assm_2 -->
-  <joint name="front_right_wheel_joint_speed" type="continuous">
+  <joint name="front_right_wheel_joint" type="continuous">
     <origin xyz="0.0680211 -0.0776141 -0.0305" rpy="-1.5708 -1.53772 -1.03884e-14"/>
     <parent link="still_chassis_assm"/>
     <child link="wheel_assm_2"/>
@@ -1584,7 +1584,7 @@
     </visual>
   </link>
   <!-- Joint from still_chassis_assm to wheel_assm_3 -->
-  <joint name="rear_left_wheel_joint_speed" type="continuous">
+  <joint name="rear_left_wheel_joint" type="continuous">
     <origin xyz="-0.0804789 0.0783859 -0.0305" rpy="-1.5708 1.5708 0"/>
     <parent link="still_chassis_assm"/>
     <child link="wheel_assm_3"/>
@@ -1656,7 +1656,7 @@
     </visual>
   </link>
   <!-- Joint from still_chassis_assm to wheel_assm_4 -->
-  <joint name="rear_right_wheel_joint_speed" type="continuous">
+  <joint name="rear_right_wheel_joint" type="continuous">
     <origin xyz="-0.0804789 -0.0776141 -0.0305" rpy="-1.5708 -1.53772 3.02617e-15"/>
     <parent link="still_chassis_assm"/>
     <child link="wheel_assm_4"/>
@@ -1802,12 +1802,12 @@
         <argument>odom:=odom/unfiltered</argument>
       </ros>
       <num_wheel_pairs>2</num_wheel_pairs>
-      <left_joint>front_left_wheel_joint_speed</left_joint>
-      <right_joint>front_right_wheel_joint_speed</right_joint>
+      <left_joint>front_left_wheel_joint</left_joint>
+      <right_joint>front_right_wheel_joint</right_joint>
       <wheel_separation>0.16</wheel_separation>
       <wheel_diameter>0.066</wheel_diameter>
-      <left_joint>rear_left_wheel_joint_speed</left_joint>
-      <right_joint>rear_right_wheel_joint_speed</right_joint>
+      <left_joint>rear_left_wheel_joint</left_joint>
+      <right_joint>rear_right_wheel_joint</right_joint>
       <wheel_separation>0.16</wheel_separation>
       <wheel_diameter>0.066</wheel_diameter>
       <!-- calculated for stall torque of 4.8 kg*cm  -->
