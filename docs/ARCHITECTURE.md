@@ -45,9 +45,9 @@ flowchart LR
 
 ---
 
-## 2. Node graph + per-phase deltas
+## 2. Node graph
 
-### Baseline (current state, post-revival)
+### Baseline — current robot
 
 ```mermaid
 flowchart LR
@@ -62,11 +62,11 @@ flowchart LR
     cam[v4l2_camera] -->|/camera/image_raw| balltrack[ball_tracker<br/>color-blob, legacy]
 ```
 
-### Adds in M1A/M1B (sim + real nav)
+### Navigation
 
-No new nodes — just tuning + map. nav2 + AMCL come up reliably.
+No new nodes. Navigation is configuration, mapping, and tuning over the baseline above.
 
-### Adds in M2A/M2B (detector)
+### Ball detection
 
 ```mermaid
 flowchart LR
@@ -77,9 +77,9 @@ flowchart LR
 
 `detection_projector` lifts 2D pixel detections to 3D poses on the floor plane using known camera extrinsics (no depth cam needed for a ball known to be ground-level).
 
-`ball_tracker` (legacy) stays alongside as a fallback / tuning aid; new BT consumes from `pickleball_detector`.
+`ball_tracker` (legacy) stays alongside as a fallback / tuning aid; the behavior tree consumes from `pickleball_detector`.
 
-### Adds in M3A/M3B (visual odometry + court)
+### Visual odometry + court keep-out
 
 ```mermaid
 flowchart LR
@@ -92,7 +92,7 @@ flowchart LR
 
 VO output is fused into the existing EKF as a pose-correction source (loose coupling). The court polygon is published as a static-layer costmap filter — nav2 plans around it natively.
 
-### Adds in M4A/M4B (manipulation)
+### Manipulation
 
 ```mermaid
 flowchart LR
@@ -102,15 +102,15 @@ flowchart LR
     detector -.feature target.-> servo
 ```
 
-### Adds in M5 (final integration)
+### Final integration
 
-No new nodes — BT v3 reaches its full form, ties everything together.
+No new nodes. The behavior tree reaches its full form and ties the subsystems together.
 
 ---
 
 ## 3. TF frame tree
 
-Target tree after v2 design (M0 deliverable). New frames in **bold**.
+Target tree for v2. New frames in **bold**.
 
 ```
 map
@@ -134,7 +134,7 @@ Notes:
 - `map` → `odom` published by AMCL (indoor) or by VO fusion (outdoor at court).
 - `odom` → `base_link` published by `ekf_filter_node`.
 - Static transforms for sensor mountings live in URDF.
-- `eye_in_hand_camera_link` calibration to `gripper_link` is hand-eye calibration (Phase 4).
+- `eye_in_hand_camera_link` calibration to `gripper_link` is hand-eye calibration.
 
 ---
 
@@ -158,9 +158,9 @@ DDS profile remains FastDDS with the custom XML at `ballbot_base/config/fastrtps
 
 ## 5. Behavior Tree decomposition
 
-Each phase ends with a BT extension. The BT lives in a new package (suggested: `ballbot_behavior`) and uses `nav2_behavior_tree` for action plumbing.
+The BT lives in its own package, `ballbot_behavior`, and uses `nav2_behavior_tree` for action plumbing. Each capability extends it by one stage.
 
-### BT v0 — end of M1B
+### BT v0 — drive and return
 "Drive to a point and come home."
 
 ```mermaid
@@ -169,7 +169,7 @@ flowchart TD
     root --> nav2[NavToPose<br/>target=base_pose]
 ```
 
-### BT v1 — end of M2B
+### BT v1 — fetch a ball
 
 "Find a ball and drive to it; come home."
 
@@ -181,7 +181,7 @@ flowchart TD
     root --> nav2[NavToPose<br/>target=base_pose]
 ```
 
-### BT v2 — end of M3B
+### BT v2 — respect the court boundary
 
 "Same, but only fetch balls outside the court polygon."
 
@@ -196,7 +196,7 @@ flowchart TD
 
 The keep-out is enforced two ways: (a) **at the planner**, via the static-layer costmap filter — robot physically can't enter the court area; and (b) **at the BT**, via `FilterBallsOutsideCourt` — robot doesn't even *try* to fetch balls that are on the court. Defense in depth.
 
-### BT v3 — end of M4B
+### BT v3 — grasp and deliver
 
 "Pick up the ball and drop it at base."
 
@@ -211,7 +211,7 @@ flowchart TD
     root --> drop[DropBall]
 ```
 
-Failure handling (retry, timeout, give-up) added as decorators in M5.
+Failure handling (retry, timeout, give-up) is added as decorators at final integration.
 
 ---
 
@@ -256,20 +256,19 @@ flowchart TB
 
 ## 7. Package layout (target)
 
-| Package | Role | Status |
+| Package | Role | State |
 |---|---|---|
-| `ballbot_description` | URDF, meshes, onshape-to-robot pipeline | major rework in **M0.1** (resurrect catbot_description CAD pipeline + simplified collisions); v2 design changes in M0.2 |
-| `ballbot_base` | Base driver config (linorobot2 fork), EKF, twist_mux | exists, minimal v2 changes |
-| `ballbot_bringup` | Launch files for real + sim | exists, extended per phase |
-| `ballbot_gazebo` | Sim worlds, plugins | exists, new pickleball court world in M3A; may absorb `obstacles.world` from `archive/catbot_simulation` |
-| `ballbot_navigation` | nav2 + AMCL config + maps | exists, retuned in M1A/M1B |
-| `ballbot_vision` | Detector node + dataset tools | exists, gains YOLO + TensorRT in M2 |
-| `ballbot_perception` (new) | Court line detection, VO, court polygon publisher | M3A |
-| `ballbot_manipulation` (new) | Visual servoing, arm action server, grasp | M4A |
-| `ballbot_behavior` (new) | Behavior tree XMLs + custom BT nodes | M1B onward |
-| `ball_tracker` (legacy) | Color-blob detector | retained as fallback / tuning aid |
-| `archive/catbot_description` | Onshape-to-robot pipeline + CAD-derived URDF | **source material for M0.1 migration**; archive can be deleted after merge |
-| `archive/catbot_simulation` | Older standalone Gazebo launch + `obstacles.world` | source for `obstacles.world` only; rest superseded by `ballbot_gazebo` |
+| `ballbot_description` | URDF, meshes, onshape-to-robot pipeline | exists |
+| `ballbot_base` | Base driver config (linorobot2 fork), EKF, twist_mux | exists |
+| `ballbot_bringup` | Launch files for real + sim | exists |
+| `ballbot_gazebo` | Sim worlds, plugins | exists; gains a pickleball court world |
+| `ballbot_navigation` | nav2 + AMCL config + maps | exists |
+| `ballbot_vision` | Detector node + dataset tools | exists; gains YOLO + TensorRT |
+| `ballbot_viz` | RViz configs and visualization helpers | exists |
+| `ballbot_perception` | Court line detection, VO, court polygon publisher | new |
+| `ballbot_manipulation` | Visual servoing, arm action server, grasp | new |
+| `ballbot_behavior` | Behavior tree XMLs + custom BT nodes | new |
+| `ball_tracker` | Color-blob detector | legacy; retained as fallback / tuning aid |
 
 ---
 
@@ -278,18 +277,18 @@ flowchart TB
 These are explicit unresolved decisions. Each will move out of this section as it's decided (with rationale captured wherever the decision lives in the doc).
 
 1. **Depth camera — yes or no, where?** Skip in v2 per current plan; mono visual servoing for manipulation. Add only if mono stalls. If added, **mounts on the arm (eye-in-hand)**, not chassis — chassis depth gives marginal nav benefit, eye-in-hand depth massively simplifies grasp. CAD: leave clearance + mounting holes on the arm; URDF: leave a `depth_camera_link` frame defined with zero mass placeholder. *Status: tentatively no, eye-in-hand if added.*
-2. **Visual servoing — IBVS or PBVS?** IBVS = simpler, image-space loop closure, robust to camera calibration error, doesn't need explicit 3D pose estimate. PBVS = explicit 3D loop, easier to integrate with motion planning. Decide before M4A. *Status: open.*
-3. **nav2 controller — DWB or MPPI?** MPPI is newer, smoother, samples thousands of trajectory rollouts. With Orin Nano Super's compute, MPPI is no longer compute-prohibitive. DWB is the safer-tested default. Decide during M1A. *Status: open, leaning MPPI.*
+2. **Visual servoing — IBVS or PBVS?** IBVS = simpler, image-space loop closure, robust to camera calibration error, doesn't need explicit 3D pose estimate. PBVS = explicit 3D loop, easier to integrate with motion planning. Decide before simulated manipulation begins. *Status: open.*
+3. **nav2 controller — DWB or MPPI?** MPPI is newer, smoother, samples thousands of trajectory rollouts. With Orin Nano Super's compute, MPPI is no longer compute-prohibitive. DWB is the safer-tested default. Decide during nav tuning. *Status: open, leaning MPPI.*
 4. **VO + AMCL fusion strategy** — Fuse VO always (loose EKF coupling), or switch on/off based on environment (indoor=AMCL, outdoor=VO)? Loose fusion is simpler; switching is more correct but adds state. *Status: tentatively loose fusion always.*
 5. ~~**Compute topology — single Jetson or distributed?**~~ **CLOSED**: single Jetson Orin Nano Super. 67 INT8 TOPS comfortably handles nav + inference + servoing simultaneously. Distributed remains a fun side experiment, not a requirement.
-6. **Detector replacement** — Does the new YOLO detector replace `ball_tracker` entirely, or live alongside? Currently planned alongside (legacy as fallback / tuning aid). Revisit after M2B confidence. *Status: alongside.*
+6. **Detector replacement** — Does the new YOLO detector replace `ball_tracker` entirely, or live alongside? Currently planned alongside (legacy as fallback / tuning aid). Revisit once the real detector is proven. *Status: alongside.*
 7. **Eye-in-hand camera type** — DOFBOT-SE ships with a USB camera + bracket. Orin Nano Super CSI port is available and supports rpicam3. USB is simpler / arm-supplied; CSI gives lower latency + better quality. *Status: tentatively use the supplied USB cam to start, swap if quality drives a need.*
 8. **Map storage strategy** — Single static apartment map, or session-rebuilt? Pickleball court geometry is *known*, so the court "map" is just the published polygon, not a SLAM map. Indoor map is static (saved). *Status: indoor static, outdoor geometric.*
 9. **Search behavior between fetches** — How does the robot wait for a ball to come into view? Options: (a) park at a chosen vantage point, chassis cam pointed at court; (b) low-rate patrol along the sideline; (c) park + active pan/tilt scan with a 2-DOF camera platform (see #10). Doesn't change architecture — only the BT search subtree. *Status: deferred; pick (a) park-at-corner as v1 placeholder.*
 10. **Pan/tilt camera platform** — Optional 2-DOF servo platform for the chassis camera. Battery-cheap (servos <1W) vs. driving (motors 5-20W) — could change the search strategy from patrol to park-and-scan. Would add a `pan_tilt_controller` node + `gimbal_link` TF frame *if* installed. *Status: deferred. No URDF placeholder reserved — adding the link later is a 5-minute change, no need to carry the complexity now.*
 11. **DOFBOT-Pro firmware/code reuse** — DOFBOT-Pro is a parallel SKU with same expansion board and confirmed Orin Nano Super support. **Confirmed**: Yahboom ships a complete URDF (`SystemFile_OrinNANOSUPER`) plus ROS code for this configuration. *Status: closing — submodule both `dofbot-pro` and `dofbot-se` into `third_party/`, compose the Pro URDF for the arm in v2 instead of re-CADing.*
 
-12. **STM32 bypass: direct I2C from Orin to expansion board** — DOFBOT-Pro evidence: the Orin Nano Super connects directly to the arm expansion board via 2 GPIO pins (I2C) over a ribbon cable, bypassing USB serial entirely. Trade-offs: lower latency, fewer cables, no host-portable abstraction layer. The DOFBOT-SE STM32 path remains as a fallback. *Status: investigation issue in M0.2; decision must precede M0.2 CAD work since it affects cable routing and plate cutouts.*
+12. **STM32 bypass: direct I2C from Orin to expansion board** — DOFBOT-Pro evidence: the Orin Nano Super connects directly to the arm expansion board via 2 GPIO pins (I2C) over a ribbon cable, bypassing USB serial entirely. Trade-offs: lower latency, fewer cables, no host-portable abstraction layer. The DOFBOT-SE STM32 path remains as a fallback. *Status: investigated; the outcome must be recorded in the decision log before CAD work, since it affects cable routing and plate cutouts.*
 
 ---
 
@@ -308,6 +307,9 @@ These are explicit unresolved decisions. Each will move out of this section as i
 - **2026-05-10** — `archive/catbot_description/` and `archive/catbot_simulation/` to be deleted after M0.1 merge. Git history preserves; `obstacles.world` absorbed into `ballbot_gazebo` if useful.
 - **2026-05-10** — Repo layout: `third_party/` at root for code submodules (Yahboom repos); `docs/third_party/` for documentation (datasheets, tutorials). Two separate domains.
 - **2026-05-10** — Roadmap moved to `docs/ROADMAP.md`. Refinement happens by editing that file, not by re-dumping in chat.
+- **2026-08-05** — Sequential milestone numbers replaced by track IDs (`NAV-`, `HW-`, `DET-`, `VO-`, `ARM-`, `BT-`, `DEMO`). Reason: hardware and navigation now run in parallel, so a single linear number asserted an ordering that no longer held. `ROADMAP.md` carries the dependency graph; entries above this line keep their original IDs, since a decision log records what was decided at the time.
+- **2026-08-05** — Milestone references removed from this document. Reason: sequencing belongs in `ROADMAP.md`, and duplicating it here created two places to update. Sections now describe subsystems rather than phase deltas. Decision-log entries are exempt as historical record.
+- **2026-08-05** — Behavior tree separated into its own track rather than appended to the navigation, detector, VO, and manipulation milestones. Reason: `ballbot_behavior` is its own package, and a capability milestone should close on whether the capability works, not on whether the autonomy layer has been wired to it.
 
 ---
 
