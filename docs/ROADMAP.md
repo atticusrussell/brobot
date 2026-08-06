@@ -273,10 +273,15 @@ filtering. Reading is pulled immediately before the implementation issue that co
 against something concrete, and it supplies a low-energy task when the bench and the robot are both
 unavailable.
 
+The test is which milestone consumes the material *first*, not which one is named after it. Nearly all
+of the filtering theory sits in NAV-1: annotating the AMCL block of `navigation.yaml` requires Monte
+Carlo localization, and diagnosing the EKF requires Kalman filters — both are comprehension work, and
+both precede any tuning. NAV-2 carries only pose-graph SLAM, which nothing before it needs.
+
 | Track | Subject |
 |---|---|
-| **NAV-1** | Linear algebra; probability and covariance; rotations and frames — quaternions, DCM, NED/ENU |
-| **NAV-2** | Kalman and extended Kalman filters; particle filters and Monte Carlo localization; pose-graph SLAM |
+| **NAV-1** | Linear algebra; probability and covariance; rotations and frames; Kalman and extended Kalman filters; particle filters and Monte Carlo localization |
+| **NAV-2** | Pose-graph SLAM |
 | **DET-1** | Image formation and camera models; convolutional networks; OpenCV |
 | **VO-1** | Multi-view geometry and PnP; feature detection, optical flow, Hough transforms |
 | **ARM-1** | Kinematics and inverse kinematics; MoveIt2; PID and servo control |
@@ -291,7 +296,7 @@ unavailable.
 - StatQuest — probability, covariance, and covariance-matrix geometry
 - Thrun, Burgard, Fox — *Probabilistic Robotics*, ch. 3–4 (Gaussian and nonparametric filters)
 
-### Localization and filtering — NAV
+### Localization and filtering — NAV-1
 
 - MATLAB Tech Talks — *Understanding Kalman Filters*
 - MATLAB Tech Talks — *Understanding Sensor Fusion and Tracking*
@@ -299,7 +304,7 @@ unavailable.
 - Stachniss — [Mobile Robotics online training](https://www.ipb.uni-bonn.de/online-training-robotics/index.html):
   Bayes filter through particle filter and MCL
 
-### Pose-graph SLAM — NAV
+### Pose-graph SLAM — NAV-2
 
 `slam_toolbox` is a pose-graph SLAM system: a Karto-derived correlative scan matcher on the front end,
 feeding a pluggable least-squares backend that defaults to Ceres, with Sparse Pose Adjustment and g2o
@@ -332,14 +337,14 @@ Implementation-specific, once the theory is in place:
 - [`slam_toolbox` README](https://github.com/SteveMacenski/slam_toolbox) — solver plugin configuration
   and lifelong-mapping modes.
 
-### Perception — DET
+### Perception — DET-1
 
 - Welch Labs — *Learning to See*; *Neural Networks Demystified*
 - 3Blue1Brown — *Neural Networks*, ch. 1–4
 - First Principles of Computer Vision — image formation and camera models
 - DOFBOT-SE course 07 (OpenCV) and course 08 (AI vision basics)
 
-### Multi-view geometry — VO
+### Multi-view geometry — VO-1
 
 - Hartley, Zisserman — *Multiple View Geometry*, PnP chapter
 - Szeliski — *Computer Vision: Algorithms and Applications* — features and structure from motion
@@ -347,7 +352,7 @@ Implementation-specific, once the theory is in place:
 - Stachniss — *Mobile Sensing and Robotics 2*
 - DOFBOT-SE course 12 — Hough lines, edges, contours, feature tracking, optical flow
 
-### Manipulation — ARM
+### Manipulation — ARM-1
 
 - Lynch, Park — *Modern Robotics*, book and lecture series
 - DOFBOT-Pro Orin-Super MoveIt case study, 10 chapters
