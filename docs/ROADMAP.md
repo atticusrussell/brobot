@@ -157,13 +157,19 @@ entire track is configuration, mapping, and tuning.
 
 | ID | Goal | Exit criterion |
 |---|---|---|
-| **NAV-1** | Understand and repair the existing nav stack before tuning it | Live node graph and TF tree verified against the baseline diagrams in ARCHITECTURE.md; `navigation.yaml` annotated parameter by parameter; DDS configuration reconciled; saved maps triaged; one goal executes end to end |
+| **NAV-1** | Understand and repair the existing nav stack before tuning it | Live node graph and TF tree verified against the baseline diagrams in ARCHITECTURE.md; `navigation.yaml` annotated except the blocks deferred below; DDS configuration reconciled; saved maps triaged; one goal executes end to end |
 | **NAV-2** | nav2 and AMCL reliable in the apartment | ≥9/10 RViz goals succeed; bag files recorded for NAV-3 |
 | **NAV-3** | Establish simulator fidelity | Sim base dynamics, lidar noise, and IMU noise reconciled against NAV-2 bags; error bounds documented |
 | **NAV-4** | Restore nav performance after v2 changes mass distribution, footprint, and compute | ≥9/10 apartment goals post-build, running on the Orin |
 
 Localization survives the v2 upgrade unchanged — same wheelbase, encoders, IMU, and base firmware.
 Control does not: mass distribution, footprint, and control-loop timing all shift. NAV-4 absorbs that.
+
+`navigation.yaml` is annotated block by block rather than in a single pass. Its parameters span four
+unrelated bodies of theory, and splitting by server lets each block be pulled when its own reading
+lands rather than waiting on all of it. Two blocks are annotated outside NAV-1, alongside the decisions
+that shape them: the controller block follows the choice between DWB and MPPI, since switching
+controllers rewrites it, and the behavior-tree blocks sit with the tree that consumes them.
 
 ### HW — v2 Hardware
 
@@ -273,15 +279,15 @@ filtering. Reading is pulled immediately before the implementation issue that co
 against something concrete, and it supplies a low-energy task when the bench and the robot are both
 unavailable.
 
-The test is which milestone consumes the material *first*, not which one is named after it. Nearly all
-of the filtering theory sits in NAV-1: annotating the AMCL block of `navigation.yaml` requires Monte
-Carlo localization, and diagnosing the EKF requires Kalman filters — both are comprehension work, and
-both precede any tuning. NAV-2 carries only pose-graph SLAM, which nothing before it needs.
+The test is which milestone consumes the material first, not which one is named after it. Reading that
+a comprehension task depends on belongs with that task, even where the subsystem it describes is
+configured or tuned later.
 
 | Track | Subject |
 |---|---|
-| **NAV-1** | Linear algebra; probability and covariance; rotations and frames; Kalman and extended Kalman filters; particle filters and Monte Carlo localization |
-| **NAV-2** | Pose-graph SLAM |
+| **NAV-1** | Linear algebra; probability and covariance; rotations and frames; Kalman and extended Kalman filters; particle filters and Monte Carlo localization; nav2 architecture and configuration; layered costmaps; graph search for path planning |
+| **NAV-2** | Pose-graph SLAM; local control — dynamic window and MPPI |
+| **BT-1** | Behavior trees |
 | **DET-1** | Image formation and camera models; convolutional networks; OpenCV |
 | **VO-1** | Multi-view geometry and PnP; feature detection, optical flow, Hough transforms |
 | **ARM-1** | Kinematics and inverse kinematics; MoveIt2; PID and servo control |
@@ -303,6 +309,21 @@ both precede any tuning. NAV-2 carries only pose-graph SLAM, which nothing befor
 - Thrun, Burgard, Fox — *Probabilistic Robotics*, ch. 8 (Monte Carlo localization)
 - Stachniss — [Mobile Robotics online training](https://www.ipb.uni-bonn.de/online-training-robotics/index.html):
   Bayes filter through particle filter and MCL
+
+### nav2 stack — NAV-1
+
+`navigation.yaml` sets over two hundred parameters across sixteen servers. This is what makes them
+legible.
+
+- Macenski, Martín, White, Clavero — [*The Marathon 2: A Navigation System*](https://arxiv.org/abs/2003.00368),
+  IROS 2020 — lifecycle nodes, behavior-tree orchestration, and the plugin model
+- [Nav2 Configuration Guide](https://docs.nav2.org/configuration/index.html) — every parameter,
+  server by server
+- [Nav2 Tuning Guide](https://docs.nav2.org/tuning/index.html)
+- Lu, Hershberger, Smart — *Layered Costmaps for Context-Sensitive Navigation*, IROS 2014 — the design
+  `nav2_costmap_2d` implements, and the source of the inflation-radius versus cost-scaling distinction
+- [Red Blob Games — Introduction to A\*](https://www.redblobgames.com/pathfinding/a-star/introduction.html)
+  and the [Nav2 planner docs](https://docs.nav2.org/configuration/packages/configuring-navfn.html)
 
 ### Pose-graph SLAM — NAV-2
 
@@ -336,6 +357,26 @@ Implementation-specific, once the theory is in place:
   Karto shipped and that `slam_toolbox` retains as a solver plugin.
 - [`slam_toolbox` README](https://github.com/SteveMacenski/slam_toolbox) — solver plugin configuration
   and lifelong-mapping modes.
+
+### Local control — NAV-2
+
+Background for choosing a controller and for annotating its parameters.
+
+- Fox, Burgard, Thrun — *The Dynamic Window Approach to Collision Avoidance*, IEEE Robotics &
+  Automation Magazine, 1997 — the ancestor of DWB
+- [Nav2 DWB controller](https://docs.nav2.org/configuration/packages/configuring-dwb-controller.html)
+  — the critic model
+- [Nav2 MPPI controller](https://docs.nav2.org/configuration/packages/configuring-mppic.html)
+  — sampling-based rollout
+
+### Behavior trees — BT-1
+
+nav2 orchestrates navigation with a behavior tree, and `ballbot_behavior` adds its own.
+
+- Colledanchise, Ögren — [*Behavior Trees in Robotics and AI: An Introduction*](https://arxiv.org/pdf/1709.00084)
+  — free; sequence, fallback, decorator, and the reactivity argument
+- [BehaviorTree.CPP](https://www.behaviortree.dev/) — the library nav2 uses
+- [Nav2 behavior tree docs](https://docs.nav2.org/behavior_trees/index.html)
 
 ### Perception — DET-1
 
