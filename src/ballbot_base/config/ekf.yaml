@@ -1,6 +1,12 @@
 ekf_filter_node:
     ros__parameters:
-        frequency: 50.0
+        # 30 Hz, not 50: on the Pi 4 a filter cycle measured 24-55 ms against a
+        # 20 ms budget, so the node logged "Failed to meet update rate" continuously
+        # and published late, jittery odom->base_footprint. Late TF during rotation
+        # starves slam_toolbox's message filter. Both inputs are 50 Hz; running the
+        # filter faster than it can finish a cycle buys nothing and costs timing
+        # regularity.
+        frequency: 30.0
         two_d_mode: true
         publish_tf: true
  
