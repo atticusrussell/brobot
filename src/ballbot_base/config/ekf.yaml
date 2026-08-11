@@ -14,11 +14,18 @@ ekf_filter_node:
         #vx    , vy    , vz,
         #vroll , vpitch, vyaw,
         #ax    , ay    , az
+        # vyaw is deliberately false here. The base is a 4-wheel skid-steer, but
+        # kinematics.cpp derives angular_z from the wheel-speed difference over
+        # LR_WHEELS_DISTANCE with a pure-rolling assumption. The wheels scrub
+        # laterally through every turn, so wheel-derived yaw rate is wrong by a
+        # surface-dependent factor. The gyro measures yaw rate directly and does
+        # not care what the robot is driving on, so imu0 owns vyaw.
+        # Wheels still own vx -- that part they measure well.
         odom0: odom/unfiltered
         odom0_config: [false, false, false,
                        false, false, false,
                        true, true, false,
-                       false, false, true,
+                       false, false, false,
                        false, false, false]
 
         imu0: imu/data
