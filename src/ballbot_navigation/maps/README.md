@@ -13,13 +13,18 @@ Maps live here as `<name>.pgm` + `<name>.yaml` and are loaded by
 First map built on a correct TF chain. Captured with `slam_toolbox` in
 `online_async` mode, driven by teleop.
 
+Manually cleaned up in GIMP after capture:
+
+- The lidar sees **through the glass door**, so it mapped free space outside the
+  house. The door line was painted occupied and the space beyond it unknown.
+- Chair legs around the island and dining table were erased. They move, and stale obstacles in
+  the static map make the planner route around empty floor.
+
+This only stops the *global* planner leaving through the door. The local costmap
+is built from live scans and the lidar will never see that glass, so it is not a
+collision guarantee — a `nav2_costmap_2d` keepout filter is the real fix.
+
 Known defects:
 
-- Fan-shaped free space in the upper right is the lidar seeing **through a glass
-  door**. Pending a manual trim: paint the door line occupied and the space
-  beyond it unknown. Note that this only stops the global planner routing
-  through the door — the local costmap is built from live scans and the lidar
-  will never see that glass, so it is not a collision guarantee. A
-  `nav2_costmap_2d` keepout filter is the real fix.
 - Room boundaries are closed and square, but coverage is not exhaustive; some
   edges are single-pass.
